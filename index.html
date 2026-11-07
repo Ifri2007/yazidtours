@@ -52,4 +52,183 @@
           <!-- TripAdvisor Official Owl SVG -->
           <a href="https://www.tripadvisor.co.uk/Attraction_Review-g293734-d34392737-Reviews-Explore_Morocco_With_Yazid_Tours-Marrakech_Marrakech_Safi.html" target="_blank" class="social-btn tripadvisor" title="Tripadvisor">
             <svg viewBox="0 0 512 512" width="20" height="20" fill="currentColor">
-              <path d="M120 256c-22.1 0-40 17.9-40 40s17.9 40 40 40 40-17.9 40-40-17.9-40-40-40zm272 0c-22.1 0-40 17.9-40 40s17.9 40 40 40 40-17.9 40-40-17.9-40-40-40zm-136 64c-8.8 0-16 7.2-16 16s7.2 16 16 16 1
+              <path d="M120 256c-22.1 0-40 17.9-40 40s17.9 40 40 40 40-17.9 40-40-17.9-40-40-40zm272 0c-22.1 0-40 17.9-40 40s17.9 40 40 40 40-17.9 40-40-17.9-40-40-40zm-136 64c-8.8 0-16 7.2-16 16s7.2 16 16 16 16-7.2 16-16-7.2-16-16-16zm128-216c-48.5 0-92 21.6-121.7 55.7C232.8 125.6 189.3 104 140.8 104 63 104 0 167 0 244.8c0 40.7 17.5 77.4 45.4 102.8L12 408c-3.1 5.4-1.2 12.3 4.2 15.4 1.8 1 3.8 1.5 5.8 1.5 3.9 0 7.7-1.9 10-5.4l38.2-61.1c21.3 12.3 45.9 19.5 72.2 19.5 54 0 100.8-30.1 124.2-74.4 23.4 44.3 70.2 74.4 124.2 74.4 26.3 0 50.9-7.2 72.2-19.5l38.2 61.1c2.3 3.5 6.1 5.4 10 5.4 2 0 4-.5 5.8-1.5 5.4-3.1 7.3-10 4.2-15.4l-33.4-60.4c27.9-25.4 45.4-62.1 45.4-102.8C512 167 449 104 384 104zM120 376c-44.2 0-80-35.8-80-80s35.8-80 80-80 80 35.8 80 80-35.8 80-80 80zm272 0c-44.2 0-80-35.8-80-80s35.8-80 80-80 80 35.8 80 80-35.8 80-80 80z"/>
+            </svg>
+          </a>
+        </div>
+        
+        <!-- Language Switcher (FR | EN | ES) -->
+        <div class="language-switcher">
+          <button class="lang-btn active" id="lang-fr" onclick="changeLanguage('fr')">FR</button>
+          <button class="lang-btn" id="lang-en" onclick="changeLanguage('en')">EN</button>
+          <button class="lang-btn" id="lang-es" onclick="changeLanguage('es')">ES</button>
+        </div>
+
+        <!-- Theme Toggle (Dark / Light Mode) -->
+        <button class="theme-toggle-btn" onclick="toggleTheme()" title="Changer le mode">
+          <i id="theme-icon" class="fa-solid fa-sun"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- 🌟 Hero Banner Section -->
+  <section class="hero" id="hero-banner">
+    <div class="hero-content">
+      <h1 data-i18n="hero_title">Explore Morocco With Yazid Tours</h1>
+      <p data-i18n="hero_desc">Des excursions inoubliables au départ de Marrakech, Ouarzazate, Merzouga et plus.</p>
+      <a href="#catalog" class="btn-hero" data-i18n="hero_btn"><i class="fa-solid fa-compass"></i> Explorer les Circuits</a>
+    </div>
+  </section>
+
+  <!-- 🌟 Tours Catalog Section -->
+  <main class="catalog-section" id="catalog">
+    <div class="container">
+      <h2 data-i18n="catalog_title">Nos Excursions</h2>
+      
+      <div class="tours-grid" id="tours-container">
+        <!-- Tour cards load automatically from script.js -->
+      </div>
+    </div>
+  </main>
+
+  <!-- 🌟 Floating WhatsApp Button -->
+  <a href="https://wa.me/212632634184?text=Bonjour%20Yazid%20Tours,%20je%20souhaite%20plus%20d'informations" target="_blank" class="whatsapp-float" title="Contactez-nous sur WhatsApp">
+    <i class="fa-brands fa-whatsapp"></i>
+  </a>
+
+  <!-- 🌟 Modal de Réservation -->
+  <div id="booking-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 3000; align-items: center; justify-content: center;">
+    <div style="background: #1e293b; padding: 30px; border-radius: 15px; width: 90%; max-width: 450px; position: relative; color: #fff; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+      
+      <!-- Bouton Fermer (X) -->
+      <span class="close-modal" style="position: absolute; top: 15px; right: 20px; font-size: 24px; cursor: pointer; color: #cbd5e1;">&times;</span>
+      
+      <h3 id="modal-tour-title" style="margin-bottom: 20px; font-size: 1.2rem; color: #2dd4bf;">Réservation</h3>
+
+      <!-- Formulaire -->
+      <form id="booking-form" onsubmit="handleBookingSubmit(event)">
+        <div style="margin-bottom: 12px;">
+          <input type="text" id="client-name" placeholder="Votre Nom" required style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #475569; background: #0f172a; color: #fff;">
+        </div>
+        
+        <div style="margin-bottom: 12px;">
+          <input type="tel" id="client-phone" placeholder="Votre Téléphone" required style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #475569; background: #0f172a; color: #fff;">
+        </div>
+        
+        <div style="margin-bottom: 12px;">
+          <label style="display:block; text-align:left; color:#cbd5e1; font-size:13px; margin-bottom:4px;">Date d'arrivée :</label>
+          <input type="date" id="client-start-date" required style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #475569; background: #0f172a; color: #fff;">
+        </div>
+        
+        <div style="margin-bottom: 12px;">
+          <label style="display:block; text-align:left; color:#cbd5e1; font-size:13px; margin-bottom:4px;">Date de départ :</label>
+          <input type="date" id="client-end-date" required style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #475569; background: #0f172a; color: #fff;">
+        </div>
+        
+        <div style="margin-bottom: 20px;">
+          <input type="number" id="client-guests" placeholder="Nombre de personnes" min="1" required style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #475569; background: #0f172a; color: #fff;">
+        </div>
+        
+        <!-- Buttons Choice -->
+        <div style="display: flex; gap: 10px;">
+          <button type="submit" style="flex: 1; background: linear-gradient(135deg, #14b8a6, #0d9488); color: white; padding: 12px; border: none; border-radius: 30px; font-weight: 700; cursor: pointer;">Envoyer par Email</button>
+          <button type="button" onclick="sendViaWhatsApp()" style="flex: 1; background: #25d366; color: white; padding: 12px; border: none; border-radius: 30px; font-weight: 700; cursor: pointer;"><i class="fa-brands fa-whatsapp"></i> WhatsApp</button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+
+  <!-- 🌟 Section Testimonials & Avis Client (Authentic TripAdvisor Reviews) -->
+  <section class="reviews-section" id="reviews">
+    <div class="container">
+      <div class="reviews-header">
+        <span class="sub-title"><i class="fa-solid fa-star"></i> TÉMOIGNAGES</span>
+        <h2>Avis de nos Voyageurs</h2>
+        <p>Ce que nos clients disent de leur expérience avec Yazid Tours</p>
+      </div>
+
+      <!-- Grid des Avis -->
+      <div class="reviews-grid">
+        
+        <!-- Avis 1: Meli T -->
+        <div class="review-card">
+          <div class="card-top">
+            <div class="user-info" style="display: flex; align-items: center; gap: 12px;">
+              <img src="https://ui-avatars.com/api/?name=Meli+T&background=0D8ABC&color=fff&rounded=true" alt="Meli T" class="avatar" style="width: 48px; height: 48px; border-radius: 50%;">
+              <div>
+                <h4 style="margin: 0; font-size: 1.05rem;">Meli T</h4>
+                <span class="user-country" style="font-size: 0.85rem; color: #94a3b8; display: flex; align-items: center; gap: 4px;">
+                  <img src="https://flagcdn.com/16x12/gb.png" alt="UK"> Livingston, UK
+                </span>
+              </div>
+            </div>
+            <i class="fa-brands fa-tripadvisor" style="color: #34e0a1; font-size: 1.5rem;" title="Avis vérifié TripAdvisor"></i>
+          </div>
+          <div class="stars" style="color: #34e0a1; margin: 12px 0 8px;">⭐⭐⭐⭐⭐</div>
+          <p class="review-text">"Got to know about Yazid on fb. He organised our transfers in Marrakech. Although I never met him in person, he was always available and all the service was 100% . Hope to meet you one day Yazid and will always recommend you. Thank you"</p>
+          <span class="review-date" style="font-size: 0.8rem; color: #64748b; display: block; margin-top: 10px;">Visité en Avril 2026</span>
+        </div>
+
+        <!-- Avis 2: Ioana C -->
+        <div class="review-card">
+          <div class="card-top">
+            <div class="user-info" style="display: flex; align-items: center; gap: 12px;">
+              <img src="https://ui-avatars.com/api/?name=Ioana+C&background=2e7d32&color=fff&rounded=true" alt="Ioana C" class="avatar" style="width: 48px; height: 48px; border-radius: 50%;">
+              <div>
+                <h4 style="margin: 0; font-size: 1.05rem;">Ioana C</h4>
+                <span class="user-country" style="font-size: 0.85rem; color: #94a3b8; display: flex; align-items: center; gap: 4px;">
+                  <img src="https://flagcdn.com/16x12/ro.png" alt="RO"> Romania
+                </span>
+              </div>
+            </div>
+            <i class="fa-brands fa-tripadvisor" style="color: #34e0a1; font-size: 1.5rem;" title="Avis vérifié TripAdvisor"></i>
+          </div>
+          <div class="stars" style="color: #34e0a1; margin: 12px 0 8px;">⭐⭐⭐⭐⭐</div>
+          <p class="review-text">"My experience with Yazid was amazing!! He is a very nice guy, a great company for our trip to a lot of places in Morocco... I had a lot of questions and Yazid was very open to answer each one of them. I encourage you to book a trip with him!"</p>
+          <span class="review-date" style="font-size: 0.8rem; color: #64748b; display: block; margin-top: 10px;">Visité en Décembre 2025</span>
+        </div>
+
+        <!-- Avis 3: Astou D -->
+        <div class="review-card">
+          <div class="card-top">
+            <div class="user-info" style="display: flex; align-items: center; gap: 12px;">
+              <img src="https://ui-avatars.com/api/?name=Astou+D&background=e65100&color=fff&rounded=true" alt="Astou D" class="avatar" style="width: 48px; height: 48px; border-radius: 50%;">
+              <div>
+                <h4 style="margin: 0; font-size: 1.05rem;">Astou D</h4>
+                <span class="user-country" style="font-size: 0.85rem; color: #94a3b8; display: flex; align-items: center; gap: 4px;">
+                  <img src="https://flagcdn.com/16x12/fr.png" alt="FR"> France
+                </span>
+              </div>
+            </div>
+            <i class="fa-brands fa-tripadvisor" style="color: #34e0a1; font-size: 1.5rem;" title="Avis vérifié TripAdvisor"></i>
+          </div>
+          <div class="stars" style="color: #34e0a1; margin: 12px 0 8px;">⭐⭐⭐⭐⭐</div>
+          <p class="review-text">"An unforgettable experience in the Agafay desert! A big thank you to Yazid for his professionalism, his kindness, and his impeccable organization. Everything was perfectly prepared... Thanks again for these wonderful memories!"</p>
+          <span class="review-date" style="font-size: 0.8rem; color: #64748b; display: block; margin-top: 10px;">Visité en Février 2026</span>
+        </div>
+
+      </div>
+
+      <!-- Banner TripAdvisor Call-To-Action -->
+      <div class="tripadvisor-box" style="margin-top: 40px; text-align: center; background: rgba(30, 41, 59, 0.7); padding: 25px; border-radius: 16px; border: 1px solid #334155;">
+        <div class="ta-info">
+          <h3>Vous avez voyagé avec nous ?</h3>
+          <p>Partagez votre avis sur notre page officielle TripAdvisor !</p>
+        </div>
+        <a href="https://www.tripadvisor.co.uk/Attraction_Review-g293734-d34392737-Reviews-Explore_Morocco_With_Yazid_Tours-Marrakech_Marrakech_Safi.html" target="_blank" class="btn-tripadvisor" style="display: inline-flex; align-items: center; gap: 10px; background: #34e0a1; color: #0f172a; padding: 12px 24px; border-radius: 30px; text-decoration: none; font-weight: 700; margin-top: 15px;">
+          <i class="fa-brands fa-tripadvisor"></i> Voir tous les avis sur TripAdvisor (19 avis)
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- EmailJS SDK -->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+
+  <!-- Custom JavaScript -->
+  <script src="script.js"></script>
+</body>
+</html>
