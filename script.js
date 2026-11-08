@@ -117,6 +117,7 @@ const heroImages = [
 ];
 let currentHeroIndex = 0;
 
+// 🌟 Expanded Translations including Booking Form elements
 const translations = {
   fr: {
     nav_home: "Accueil",
@@ -124,7 +125,13 @@ const translations = {
     hero_title: "Explore Morocco With Yazid Tours",
     hero_desc: "Des excursions inoubliables au départ de Marrakech, Ouarzazate, Merzouga et plus.",
     hero_btn: "Explorer les Circuits",
-    catalog_title: "Nos Excursions"
+    catalog_title: "Nos Excursions",
+    book_title: "Réserver",
+    ph_name: "Votre Nom",
+    ph_phone: "Votre Téléphone",
+    ph_guests: "Nombre de personnes",
+    btn_email: "Envoyer par Email",
+    btn_whatsapp: "WhatsApp"
   },
   en: {
     nav_home: "Home",
@@ -132,7 +139,13 @@ const translations = {
     hero_title: "Explore Morocco With Yazid Tours",
     hero_desc: "Unforgettable excursions departing from Marrakech, Ouarzazate, Merzouga and more.",
     hero_btn: "Explore Tours",
-    catalog_title: "Our Excursions"
+    catalog_title: "Our Excursions",
+    book_title: "Book Tour",
+    ph_name: "Your Name",
+    ph_phone: "Your Phone",
+    ph_guests: "Number of guests",
+    btn_email: "Send via Email",
+    btn_whatsapp: "WhatsApp"
   },
   es: {
     nav_home: "Inicio",
@@ -140,7 +153,13 @@ const translations = {
     hero_title: "Explore Morocco With Yazid Tours",
     hero_desc: "Excursiones inolvidables saliendo de Marrakech, Ouarzazate, Merzouga y más.",
     hero_btn: "Explorar Excursiones",
-    catalog_title: "Nuestras Excursiones"
+    catalog_title: "Nuestras Excursiones",
+    book_title: "Reservar Excursión",
+    ph_name: "Tu Nombre",
+    ph_phone: "Tu Teléfono",
+    ph_guests: "Número de personas",
+    btn_email: "Enviar por Correo",
+    btn_whatsapp: "WhatsApp"
   }
 };
 
@@ -188,7 +207,6 @@ function renderTours(lang) {
     const desc = (tour.desc && (tour.desc[lang] || tour.desc['fr'])) || tour.description || tour.desc || '';
     const duration = (tour.duration && (tour.duration[lang] || tour.duration['fr'])) || tour.duration || '';
 
-    // محطات الخط الزمني المرئي للمسار حسب الرحلة
     let routePoints = ["Marrakech", "Aït Ben Haddou", "Ouarzazate", "Merzouga"];
     if (tour.id === 4 || tour.id === 5) {
       routePoints = ["Marrakech", "Ourika", "Setti Fatma"];
@@ -201,6 +219,9 @@ function renderTours(lang) {
         ${point} ${index < routePoints.length - 1 ? '<i class="fa-solid fa-chevron-right"></i>' : ''}
       </span>
     `).join('');
+
+    // ترجمة نص زر الحجز حسب لغة الموقع الحالية
+    const reserveBtnText = translations[lang] ? (lang === 'en' ? 'Book Now' : (lang === 'es' ? 'Reservar' : 'Réserver')) : 'Réserver';
 
     return `
       <div class="tour-card">
@@ -217,7 +238,6 @@ function renderTours(lang) {
         <div class="tour-info">
           <h3>${title}</h3>
           
-          <!-- خريطة الخط الزمني للمسار -->
           <div class="route-timeline">
             ${timelineHtml}
           </div>
@@ -227,7 +247,7 @@ function renderTours(lang) {
           <div class="tour-footer">
             <div class="price">${tour.price}</div>
             <button class="btn-reserver" onclick="openBookingModal('${title.replace(/'/g, "\\'")}')">
-              Réserver
+              ${reserveBtnText}
             </button>
           </div>
         </div>
@@ -281,11 +301,28 @@ function updateTourImage(tourId, src) {
   }
 }
 
-// Modal & Booking Logic
+// Modal & Booking Logic with Auto Language Form Update
 function openBookingModal(tourName) {
   selectedTourTitle = tourName;
   const titleEl = document.getElementById('modal-tour-title');
-  if (titleEl) titleEl.innerText = "Réserver: " + tourName;
+  const t = translations[currentLang] || translations['fr'];
+  
+  if (titleEl) titleEl.innerText = `${t.book_title}: ` + tourName;
+  
+  // تحديث Placeholders حسب اللغة الحالية
+  const clientName = document.getElementById('client-name');
+  const clientPhone = document.getElementById('client-phone');
+  const clientGuests = document.getElementById('client-guests');
+  const emailBtn = document.querySelector('.btn-email');
+  const whatsappBtn = document.querySelector('.btn-whatsapp');
+
+  if (clientName) clientName.placeholder = t.ph_name;
+  if (clientPhone) clientPhone.placeholder = t.phone || (currentLang === 'en' ? 'Your Phone' : (currentLang === 'es' ? 'Tu Teléfono' : 'Votre Téléphone'));
+  if (clientGuests) clientGuests.placeholder = t.ph_guests;
+  if (emailBtn) emailBtn.textContent = t.btn_email;
+  if (whatsappBtn) {
+    whatsappBtn.innerHTML = `<i class="fa-brands fa-whatsapp"></i> ${t.btn_whatsapp}`;
+  }
   
   const modal = document.getElementById('booking-modal');
   if (modal) modal.style.display = "flex";
@@ -333,12 +370,12 @@ function handleBookingSubmit(event) {
 
   emailjs.send('service_xflp3xf', 'template_vu4kcib', templateParams)
     .then(function(response) {
-       alert('Votre demande de réservation a été envoyée avec succès !');
+       alert(currentLang === 'en' ? 'Booking request sent successfully!' : (currentLang === 'es' ? '¡Solicitud de reserva enviada con éxito!' : 'Votre demande de réservation a été envoyée avec succès !'));
        const modal = document.getElementById('booking-modal');
        if(modal) modal.style.display = "none";
        document.getElementById('booking-form').reset();
     }, function(error) {
-       alert('Erreur lors de l\'envoi. Veuillez nous contacter via WhatsApp.');
+       alert(currentLang === 'en' ? 'Error sending. Please contact via WhatsApp.' : (currentLang === 'es' ? 'Error al enviar. Por favor contáctenos por WhatsApp.' : 'Erreur lors de l\'envoi. Veuillez nous contacter via WhatsApp.'));
     });
 }
 
@@ -351,11 +388,10 @@ function sendViaWhatsApp() {
   const guests = document.getElementById('client-guests').value;
 
   if (!name || !phone || !startDate || !endDate || !guests) {
-    alert('Veuillez remplir tous les champs avant d\'envoyer sur WhatsApp.');
+    alert(currentLang === 'en' ? 'Please fill in all fields before sending via WhatsApp.' : (currentLang === 'es' ? 'Por favor rellene todos los campos antes de enviar por WhatsApp.' : 'Veuillez remplir tous les champs avant d\'envoyer sur WhatsApp.'));
     return;
   }
 
-  // معرفة اللغة النشطة حالياً في الموقع (FR, EN, ES) بدون أخطاء
   let lang = currentLang || 'fr';
   const activeLangBtn = document.querySelector('.language-switcher .lang-btn.active');
   if (activeLangBtn) {
@@ -369,17 +405,14 @@ function sendViaWhatsApp() {
   const bookingPeriod = `Du ${startDate} au ${endDate}`;
   let msg = "";
 
-  // صياغة الرسالة تلقائياً حسب لغة السائح
   if (lang === 'en') {
     msg = `Hello Yazid Tours,\n\nI would like to book: *${selectedTourTitle || "Tour"}*\nName: ${name}\nPhone: ${phone}\nPeriod: From ${startDate} to ${endDate}\nGuests: ${guests}\n\nThank you!`;
   } else if (lang === 'es') {
     msg = `¡Hola Yazid Tours!\n\nMe gustaría reservar: *${selectedTourTitle || "Tour"}*\nNombre: ${name}\nTeléfono: ${phone}\nPeriodo: Del ${startDate} al ${endDate}\nPersonas: ${guests}\n\n¡Gracias!`;
   } else {
-    // Default French
     msg = `Bonjour Yazid Tours,\n\nJe souhaite réserver : *${selectedTourTitle || "Tour"}*\nNom : ${name}\nTéléphone : ${phone}\nPériode : ${bookingPeriod}\nPersonnes : ${guests}\n\nMerci !`;
   }
 
-  // فتح الواتساب بالرسالة المجهزة
   window.open(`https://wa.me/${whatsappNum}?text=${encodeURIComponent(msg)}`, '_blank');
   
   const modal = document.getElementById('booking-modal');
@@ -443,7 +476,7 @@ function displayComment(comment) {
   commentsList.prepend(commentDiv);
 }
 
-// 2. Fonction changeLanguage
+// 2. Fonction changeLanguage (Updated)
 function changeLanguage(lang) {
   currentLang = lang;
 
