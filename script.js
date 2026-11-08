@@ -175,7 +175,7 @@ function initHeroSlider() {
   }, 5000); 
 }
 
-/// Render Tours (Version sécurisée)
+// Render Tours with Interactive Route Timeline
 function renderTours(lang) {
   const container = document.getElementById('tours-container');
   if (!container) return;
@@ -187,6 +187,20 @@ function renderTours(lang) {
     const title = (tour.title && (tour.title[lang] || tour.title['fr'])) || tour.title || '';
     const desc = (tour.desc && (tour.desc[lang] || tour.desc['fr'])) || tour.description || tour.desc || '';
     const duration = (tour.duration && (tour.duration[lang] || tour.duration['fr'])) || tour.duration || '';
+
+    // محطات الخط الزمني المرئي للمسار حسب الرحلة
+    let routePoints = ["Marrakech", "Aït Ben Haddou", "Ouarzazate", "Merzouga"];
+    if (tour.id === 4 || tour.id === 5) {
+      routePoints = ["Marrakech", "Ourika", "Setti Fatma"];
+    } else if (tour.id === 3) {
+      routePoints = ["Marrakech", "Tichka", "Dadès", "Merzouga (Luxe)"];
+    }
+
+    const timelineHtml = routePoints.map((point, index) => `
+      <span class="route-step">
+        ${point} ${index < routePoints.length - 1 ? '<i class="fa-solid fa-chevron-right"></i>' : ''}
+      </span>
+    `).join('');
 
     return `
       <div class="tour-card">
@@ -202,7 +216,13 @@ function renderTours(lang) {
         
         <div class="tour-info">
           <h3>${title}</h3>
-          <p class="desc" style="white-space: pre-line; max-height: 150px; overflow-y: auto;">${desc}</p>
+          
+          <!-- خريطة الخط الزمني للمسار -->
+          <div class="route-timeline">
+            ${timelineHtml}
+          </div>
+
+          <p class="desc" style="white-space: pre-line; max-height: 130px; overflow-y: auto;">${desc}</p>
           
           <div class="tour-footer">
             <div class="price">${tour.price}</div>
@@ -321,6 +341,7 @@ function handleBookingSubmit(event) {
        alert('Erreur lors de l\'envoi. Veuillez nous contacter via WhatsApp.');
     });
 }
+
 // 🌟 WhatsApp Booking Handler with Multi-language Automatic Support
 function sendViaWhatsApp() {
   const name = document.getElementById('client-name').value;
@@ -334,7 +355,7 @@ function sendViaWhatsApp() {
     return;
   }
 
-  // 1. معرفة اللغة النشطة حالياً في الموقع (FR, EN, ES)
+  // معرفة اللغة النشطة حالياً في الموقع (FR, EN, ES) بدون أخطاء
   let lang = currentLang || 'fr';
   const activeLangBtn = document.querySelector('.language-switcher .lang-btn.active');
   if (activeLangBtn) {
@@ -348,7 +369,7 @@ function sendViaWhatsApp() {
   const bookingPeriod = `Du ${startDate} au ${endDate}`;
   let msg = "";
 
-  // 2. صياغة الرسالة تلقائياً حسب لغة السائح
+  // صياغة الرسالة تلقائياً حسب لغة السائح
   if (lang === 'en') {
     msg = `Hello Yazid Tours,\n\nI would like to book: *${selectedTourTitle || "Tour"}*\nName: ${name}\nPhone: ${phone}\nPeriod: From ${startDate} to ${endDate}\nGuests: ${guests}\n\nThank you!`;
   } else if (lang === 'es') {
@@ -358,7 +379,7 @@ function sendViaWhatsApp() {
     msg = `Bonjour Yazid Tours,\n\nJe souhaite réserver : *${selectedTourTitle || "Tour"}*\nNom : ${name}\nTéléphone : ${phone}\nPériode : ${bookingPeriod}\nPersonnes : ${guests}\n\nMerci !`;
   }
 
-  // 3. فتح الواتساب بالرسالة المجهزة
+  // فتح الواتساب بالرسالة المجهزة
   window.open(`https://wa.me/${whatsappNum}?text=${encodeURIComponent(msg)}`, '_blank');
   
   const modal = document.getElementById('booking-modal');
@@ -446,6 +467,7 @@ function changeLanguage(lang) {
     activeBtn.classList.add('active');
   }
 }
+
 // 🌟 Scroll Reveal Effect
 function revealOnScroll() {
   const reveals = document.querySelectorAll('.tour-card, .review-card, .catalog-section h2');
@@ -463,5 +485,4 @@ function revealOnScroll() {
 }
 
 window.addEventListener('scroll', revealOnScroll);
-// تشغيل دالة الفحص مرة أولية عند تحميل الصفحة
 window.addEventListener('load', revealOnScroll);
