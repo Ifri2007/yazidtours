@@ -321,8 +321,7 @@ function handleBookingSubmit(event) {
        alert('Erreur lors de l\'envoi. Veuillez nous contacter via WhatsApp.');
     });
 }
-
-// WhatsApp Booking Handler
+// 🌟 WhatsApp Booking Handler with Multi-language Automatic Support
 function sendViaWhatsApp() {
   const name = document.getElementById('client-name').value;
   const phone = document.getElementById('client-phone').value;
@@ -335,11 +334,31 @@ function sendViaWhatsApp() {
     return;
   }
 
+  // 1. معرفة اللغة النشطة حالياً في الموقع (FR, EN, ES)
+  let lang = currentLang || 'fr';
+  const activeLangBtn = document.querySelector('.language-switcher .lang-btn.active');
+  if (activeLangBtn) {
+    const btnText = activeLangBtn.innerText.toLowerCase();
+    if (btnText.includes('en')) lang = 'en';
+    else if (btnText.includes('es')) lang = 'es';
+    else if (btnText.includes('fr')) lang = 'fr';
+  }
+
   const whatsappNum = "212632634184"; 
   const bookingPeriod = `Du ${startDate} au ${endDate}`;
+  let msg = "";
 
-  const msg = `Bonjour Yazid Tours,\n\nJe souhaite réserver : *${selectedTourTitle || "Tour"}*\nNom : ${name}\nTéléphone : ${phone}\nPériode : ${bookingPeriod}\nPersonnes : ${guests}\n\nMerci !`;
+  // 2. صياغة الرسالة تلقائياً حسب لغة السائح
+  if (lang === 'en') {
+    msg = `Hello Yazid Tours,\n\nI would like to book: *${selectedTourTitle || "Tour"}*\nName: ${name}\nPhone: ${phone}\nPeriod: From ${startDate} to ${endDate}\nGuests: ${guests}\n\nThank you!`;
+  } else if (lang === 'es') {
+    msg = `¡Hola Yazid Tours!\n\nMe gustaría reservar: *${selectedTourTitle || "Tour"}*\nNombre: ${name}\nTeléfono: ${phone}\nPeriodo: Del ${startDate} al ${endDate}\nPersonas: ${guests}\n\n¡Gracias!`;
+  } else {
+    // Default French
+    msg = `Bonjour Yazid Tours,\n\nJe souhaite réserver : *${selectedTourTitle || "Tour"}*\nNom : ${name}\nTéléphone : ${phone}\nPériode : ${bookingPeriod}\nPersonnes : ${guests}\n\nMerci !`;
+  }
 
+  // 3. فتح الواتساب بالرسالة المجهزة
   window.open(`https://wa.me/${whatsappNum}?text=${encodeURIComponent(msg)}`, '_blank');
   
   const modal = document.getElementById('booking-modal');
@@ -427,3 +446,22 @@ function changeLanguage(lang) {
     activeBtn.classList.add('active');
   }
 }
+// 🌟 Scroll Reveal Effect
+function revealOnScroll() {
+  const reveals = document.querySelectorAll('.tour-card, .review-card, .catalog-section h2');
+  
+  reveals.forEach(element => {
+    element.classList.add('reveal');
+    const windowHeight = window.innerHeight;
+    const elementTop = element.getBoundingClientRect().top;
+    const elementVisible = 100;
+    
+    if (elementTop < windowHeight - elementVisible) {
+      element.classList.add('active');
+    }
+  });
+}
+
+window.addEventListener('scroll', revealOnScroll);
+// تشغيل دالة الفحص مرة أولية عند تحميل الصفحة
+window.addEventListener('load', revealOnScroll);
