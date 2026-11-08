@@ -2,17 +2,26 @@
    Yazid Tours - Professional Luxury Slate & Dark Theme
    ========================================================= */
 
+:root {
+  --primary: #14b8a6;
+  --primary-hover: #0d9488;
+  --accent: #25d366;
+}
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   font-family: 'Poppins', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  scroll-behavior: smooth;
 }
 
 body {
-  background-color: #0f172a; /* Slate Dark Professional (Machchi khel mjemm) */
+  background-color: #0f172a; /* Dark Mode Default */
   color: #f8fafc;
   line-height: 1.6;
+  padding-top: 80px;
+  overflow-x: hidden;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
@@ -23,505 +32,12 @@ body.light-mode {
 }
 
 body.light-mode .site-header {
-  background: rgba(255, 255, 255, 0.95);
+  background: rgba(255, 255, 255, 0.95) !important;
   border-bottom: 1px solid #e2e8f0;
 }
 
-body.light-mode .nav-links a {
-  color: #334155;
-}
-
-body.light-mode .nav-links a:hover {
-  color: #0d9488;
-}
-
-body.light-mode .social-btn {
-  background: #e2e8f0;
-  color: #475569;
-}
-
-body.light-mode .language-switcher {
-  background: #e2e8f0;
-  border: 1px solid #cbd5e1;
-}
-
-body.light-mode .lang-btn {
-  color: #64748b;
-}
-
-body.light-mode .tour-card {
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
-}
-
-body.light-mode .tour-info h3 {
-  color: #0f172a;
-}
-
-body.light-mode .desc {
-  color: #64748b;
-}
-
-body.light-mode .tour-footer {
-  border-top: 1px solid #f1f5f9;
-}
-
-body.light-mode .badge {
-  background: rgba(15, 23, 42, 0.75);
-  color: #2dd4bf;
-}
-
-body.light-mode .slider-btn {
-  background: rgba(255, 255, 255, 0.9);
-  color: #0f172a;
-  border: 1px solid #cbd5e1;
-}
-
-body.light-mode .theme-toggle-btn {
-  border: 1px solid #cbd5e1;
-  color: #0d9488;
-  background: #e2e8f0;
-}
-
-/* 🌟 Header Section */
-.site-header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  background: rgba(15, 23, 42, 0.85);
-  backdrop-filter: blur(14px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  z-index: 1000;
-  transition: all 0.3s ease;
-}
-
-.header-container {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 15px 24px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.logo a {
-  text-decoration: none;
-  color: #2dd4bf;
-}
-
-.logo h2 {
-  margin: 0;
-  font-size: 1.6rem;
-  font-weight: 800;
-  letter-spacing: -0.5px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.yaz-symbol {
-  color: #14b8a6;
-  font-size: 1.8rem;
-}
-
-/* Nav Links */
-.nav-links {
-  display: flex;
-  gap: 28px;
-}
-
-.nav-links a {
-  text-decoration: none;
-  color: #94a3b8;
-  font-weight: 500;
-  font-size: 0.95rem;
-  transition: color 0.2s ease;
-}
-
-.nav-links a:hover {
-  color: #2dd4bf;
-}
-
-/* Header Actions */
-.header-actions {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
-
-.social-links {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.social-btn {
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  background: #1e293b;
-  color: #cbd5e1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-decoration: none;
-  font-size: 1.1rem;
-  transition: all 0.3s ease;
-}
-
-.social-btn.tripadvisor:hover {
-  background-color: #34e0a1;
-  color: #0f172a;
-  transform: translateY(-2px);
-}
-
-.social-btn.instagram:hover {
-  background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
-  color: #fff;
-  transform: translateY(-2px);
-}
-
-/* Language Switcher */
-.language-switcher {
-  display: flex;
-  align-items: center;
-  gap: 2px;
-  background: #1e293b;
-  padding: 4px;
-  border-radius: 30px;
-  border: 1px solid rgba(255, 255, 255, 0.06);
-}
-
-.lang-btn {
-  border: none;
-  background: transparent;
-  padding: 6px 14px;
-  font-size: 0.85rem;
-  font-weight: 700;
-  color: #94a3b8;
-  border-radius: 20px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.lang-btn.active {
-  background: #0d9488;
-  color: #ffffff;
-  box-shadow: 0 2px 10px rgba(13, 148, 136, 0.4);
-}
-
-/* Theme Toggle Button */
-.theme-toggle-btn {
-  background: #1e293b;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: #2dd4bf;
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  font-size: 1rem;
-}
-
-.theme-toggle-btn:hover {
-  transform: scale(1.08);
-  border-color: #2dd4bf;
-}
-
-/* 🌟 Hero Banner Section */
-.hero {
-  position: relative;
-  height: 85vh;
-  min-height: 550px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  color: #ffffff;
-  padding: 0 20px;
-  margin-top: 65px;
-  background-size: cover;
-  background-position: center;
-  overflow: hidden;
-  transition: background-image 1.2s ease-in-out, opacity 0.4s ease-in-out;
-}
-
-.hero::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; width: 100%; height: 100%;
-  background: linear-gradient(180deg, rgba(15, 23, 42, 0.5) 0%, rgba(15, 23, 42, 0.8) 100%);
-  z-index: 1;
-}
-
-.hero-content {
-  position: relative;
-  z-index: 2;
-  max-width: 900px;
-}
-
-.hero-content h1 {
-  font-size: 3.5rem;
-  font-weight: 800;
-  margin-bottom: 16px;
-  letter-spacing: -1px;
-  text-shadow: 0 4px 20px rgba(0,0,0,0.6);
-}
-
-.hero-content p {
-  font-size: 1.25rem;
-  font-weight: 400;
-  margin-bottom: 32px;
-  color: #cbd5e1;
-  text-shadow: 0 2px 10px rgba(0,0,0,0.6);
-}
-
-.btn-hero {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  background: linear-gradient(135deg, #14b8a6, #0d9488);
-  color: white;
-  padding: 14px 34px;
-  border-radius: 50px;
-  text-decoration: none;
-  font-weight: 700;
-  font-size: 1.05rem;
-  box-shadow: 0 8px 25px rgba(20, 184, 166, 0.4);
-  transition: all 0.3s ease;
-}
-
-.btn-hero:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 12px 30px rgba(20, 184, 166, 0.6);
-  background: linear-gradient(135deg, #0d9488, #14b8a6);
-}
-
-/* 🌟 Tour Catalog Container */
-.catalog-section {
-  padding: 90px 20px;
-}
-
-.container {
-  max-width: 1280px;
-  margin: 0 auto;
-}
-
-.catalog-section h2 {
-  text-align: center;
-  font-size: 2.5rem;
-  font-weight: 800;
-  color: #f8fafc;
-  margin-bottom: 50px;
-  position: relative;
-}
-
-body.light-mode .catalog-section h2 {
-  color: #0f172a;
-}
-
-.catalog-section h2::after {
-  content: '';
-  display: block;
-  width: 80px;
-  height: 4px;
-  background: #14b8a6;
-  margin: 14px auto 0;
-  border-radius: 2px;
-}
-
-/* Grid Layout */
-.tours-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
-  gap: 36px;
-}
-
-/* Tour Card Styling - Professional Slate Card */
-.tour-card {
-  background: #1e293b; /* كرت رمادي غامق فخم متناسق جداً */
-  border-radius: 20px;
-  overflow: hidden;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  display: flex;
-  flex-direction: column;
-  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.tour-card:hover {
-  transform: translateY(-8px);
-  border-color: rgba(20, 184, 166, 0.4);
-  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
-}
-
-.tour-img-box {
-  position: relative;
-  height: 260px;
-  overflow: hidden;
-}
-
-.tour-img-box img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.6s ease, opacity 0.4s ease;
-}
-
-.tour-card:hover .tour-img-box img {
-  transform: scale(1.06);
-}
-
-.badge {
-  position: absolute;
-  top: 16px;
-  left: 16px;
-  background: rgba(15, 23, 42, 0.8);
-  backdrop-filter: blur(8px);
-  color: #2dd4bf;
-  padding: 6px 14px;
-  border-radius: 30px;
-  font-size: 0.8rem;
-  font-weight: 600;
-  z-index: 5;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  border: 1px solid rgba(45, 212, 191, 0.25);
-}
-
-/* Slider Controls */
-.slider-btn {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background: rgba(15, 23, 42, 0.85);
-  color: #2dd4bf;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  width: 38px;
-  height: 38px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  border-radius: 50%;
-  transition: all 0.2s ease;
-  z-index: 10;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-}
-
-.slider-btn:hover {
-  background: #14b8a6;
-  color: #0f172a;
-}
-
-.prev-btn { left: 14px; }
-.next-btn { right: 14px; }
-
-/* Card Content */
-.tour-info {
-  padding: 26px;
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-}
-
-.tour-info h3 {
-  font-size: 1.35rem;
-  font-weight: 700;
-  color: #f8fafc;
-  margin-bottom: 14px;
-  line-height: 1.4;
-}
-
-.desc {
-  font-size: 0.92rem;
-  color: #94a3b8;
-  line-height: 1.7;
-  margin-bottom: 24px;
-  flex-grow: 1;
-}
-
-.tour-footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-  padding-top: 20px;
-  margin-top: auto;
-}
-
-.price {
-  font-size: 1.2rem;
-  font-weight: 800;
-  color: #2dd4bf;
-}
-
-.btn-reserver {
-  background: linear-gradient(135deg, #14b8a6, #0d9488);
-  color: #ffffff;
-  border: none;
-  padding: 11px 24px;
-  border-radius: 30px;
-  cursor: pointer;
-  font-weight: 700;
-  font-size: 0.9rem;
-  box-shadow: 0 4px 15px rgba(20, 184, 166, 0.3);
-  transition: all 0.3s ease;
-}
-
-.btn-reserver:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(20, 184, 166, 0.5);
-  background: linear-gradient(135deg, #0d9488, #14b8a6);
-}
-
-/* Fade Effect for Sliders */
-.fade-effect {
-  opacity: 0.3;
-}
-
-/* Responsive Fixes */
-@media (max-width: 768px) {
-  .hero-content h1 { font-size: 2.3rem; }
-  .hero-content p { font-size: 1rem; }
-  .tours-grid { grid-template-columns: 1fr; }
-  .header-container { padding: 12px 16px; }
-  .nav-links { display: none; }
-}
-/* =========================================================
-   Yazid Tours - Clean Fixed & Professional Luxury Style
-   ========================================================= */
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Poppins', 'Segoe UI', system-ui, -apple-system, sans-serif;
-}
-
-body {
-  background-color: #0f172a;
-  color: #f8fafc;
-  line-height: 1.6;
-  padding-top: 80px; /* تباعد مهم باش الـ Header الثابت ما يغطي حتى شي قسم تحته */
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-/* --- Light Mode --- */
-body.light-mode {
-  background-color: #f1f5f9;
-  color: #1e293b;
-}
-
-body.light-mode .site-header {
-  background: rgba(255, 255, 255, 0.95);
-  border-bottom: 1px solid #e2e8f0;
+body.light-mode .logo h2 {
+  color: #0f172a !important; /* لون داكن وواضح في النهار */
 }
 
 body.light-mode .nav-links a { color: #334155; }
@@ -539,6 +55,37 @@ body.light-mode .tour-info h3, body.light-mode .review-text, body.light-mode .ca
 }
 body.light-mode .theme-toggle-btn { background: #e2e8f0; border: 1px solid #cbd5e1; color: #0d9488; }
 
+
+/* --- Dark Mode (Mode Lil) --- */
+.logo h2 {
+  color: #ffffff !important; /* لون أبيض ناصع وواضح في الليل */
+  font-size: 1.6rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.yaz-symbol {
+  color: var(--primary);
+  font-size: 1.8rem;
+  animation: pulseSymbol 2s infinite;
+}
+
+@keyframes pulseSymbol {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+.logo-sub {
+  font-size: 0.65rem;
+  color: #94a3b8;
+  letter-spacing: 1px;
+  font-weight: 600;
+}
+
+
 /* 🌟 Header Section (Fixed) */
 .site-header {
   position: fixed;
@@ -549,6 +96,7 @@ body.light-mode .theme-toggle-btn { background: #e2e8f0; border: 1px solid #cbd5
   backdrop-filter: blur(12px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   z-index: 2000;
+  transition: all 0.3s ease;
 }
 
 .header-container {
@@ -560,12 +108,10 @@ body.light-mode .theme-toggle-btn { background: #e2e8f0; border: 1px solid #cbd5
   justify-content: space-between;
 }
 
-.logo a { text-decoration: none; color: #2dd4bf; }
-.logo h2 { margin: 0; font-size: 1.6rem; font-weight: 800; display: flex; align-items: center; gap: 8px; }
-.yaz-symbol { color: #14b8a6; font-size: 1.8rem; }
+.logo a { text-decoration: none; display: flex; flex-direction: column; }
 
 .nav-links { display: flex; gap: 28px; }
-.nav-links a { text-decoration: none; color: #94a3b8; font-weight: 500; font-size: 0.95rem; transition: color 0.2s; }
+.nav-links a { text-decoration: none; color: #94a3b8; font-weight: 500; font-size: 0.95rem; transition: color 0.2s; position: relative; }
 .nav-links a:hover { color: #2dd4bf; }
 
 .header-actions { display: flex; align-items: center; gap: 14px; }
@@ -587,9 +133,10 @@ body.light-mode .theme-toggle-btn { background: #e2e8f0; border: 1px solid #cbd5
   transition: all 0.3s ease;
 }
 
-.social-btn.instagram:hover { background: #fd5949; color: #fff; }
-.social-btn.tripadvisor:hover { background: #34e0a1; color: #0f172a; }
-.theme-toggle-btn:hover { color: #2dd4bf; border-color: #2dd4bf; }
+.social-btn.instagram:hover { background: #fd5949; color: #fff; transform: translateY(-2px); }
+.social-btn.tripadvisor { background: #34e0a1 !important; color: #0f172a !important; font-weight: 800; }
+.social-btn.tripadvisor i { color: #0f172a !important; }
+.theme-toggle-btn:hover { color: #2dd4bf; border-color: #2dd4bf; transform: scale(1.08); }
 
 .language-switcher {
   display: flex;
@@ -617,31 +164,40 @@ body.light-mode .theme-toggle-btn { background: #e2e8f0; border: 1px solid #cbd5
   color: #ffffff;
 }
 
+
 /* 🌟 Hero Banner */
 .hero {
   position: relative;
-  height: 85vh;
-  min-height: 550px;
+  width: 100vw;
+  height: 100vh;
+  min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
   color: #ffffff;
   padding: 0 20px;
-  background-size: cover;
-  background-position: center;
+  background-size: cover !important;
+  background-position: center center !important;
+  background-repeat: no-repeat !important;
   overflow: hidden;
+  margin-top: -80px; /* باش يلصق مع الفوق تحت الـ Header الثابت */
 }
 
 .hero::before {
   content: '';
   position: absolute;
   top: 0; left: 0; width: 100%; height: 100%;
-  background: linear-gradient(180deg, rgba(15, 23, 42, 0.5) 0%, rgba(15, 23, 42, 0.85) 100%);
+  background: linear-gradient(180deg, rgba(15, 23, 42, 0.4) 0%, rgba(15, 23, 42, 0.8) 100%);
   z-index: 1;
 }
 
-.hero-content { position: relative; z-index: 2; max-width: 900px; }
+.hero-content { position: relative; z-index: 2; max-width: 900px; animation: fadeIn 1s ease-in-out; }
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 .hero-content h1 { font-size: 3.5rem; font-weight: 800; margin-bottom: 16px; text-shadow: 0 4px 20px rgba(0,0,0,0.6); }
 .hero-content p { font-size: 1.25rem; margin-bottom: 32px; color: #cbd5e1; text-shadow: 0 2px 10px rgba(0,0,0,0.6); }
 
@@ -658,9 +214,10 @@ body.light-mode .theme-toggle-btn { background: #e2e8f0; border: 1px solid #cbd5
   box-shadow: 0 8px 25px rgba(20, 184, 166, 0.4);
   transition: all 0.3s ease;
 }
-.btn-hero:hover { transform: translateY(-3px); }
+.btn-hero:hover { transform: translateY(-3px); box-shadow: 0 12px 30px rgba(20, 184, 166, 0.6); }
 
-/* 🌟 Catalog & Grid Fixes */
+
+/* 🌟 Catalog & Grid */
 .catalog-section, .reviews-section {
   padding: 90px 20px;
 }
@@ -684,6 +241,7 @@ body.light-mode .theme-toggle-btn { background: #e2e8f0; border: 1px solid #cbd5
   gap: 30px;
   width: 100%;
 }
+
 
 /* Tour & Review Cards */
 .tour-card, .review-card {
@@ -747,14 +305,13 @@ body.light-mode .theme-toggle-btn { background: #e2e8f0; border: 1px solid #cbd5
   cursor: pointer;
   border-radius: 50%;
   z-index: 10;
+  transition: background 0.2s;
 }
+.slider-btn:hover { background: #14b8a6; color: #0f172a; }
 .prev-btn { left: 14px; }
 .next-btn { right: 14px; }
 
-.tour-info, .review-card {
-  padding: 26px;
-}
-.tour-info { display: flex; flex-direction: column; flex-grow: 1; }
+.tour-info { padding: 26px; display: flex; flex-direction: column; flex-grow: 1; }
 .tour-info h3 { font-size: 1.35rem; font-weight: 700; color: #f8fafc; margin-bottom: 14px; }
 .desc { font-size: 0.92rem; color: #94a3b8; margin-bottom: 24px; flex-grow: 1; }
 
@@ -776,7 +333,10 @@ body.light-mode .theme-toggle-btn { background: #e2e8f0; border: 1px solid #cbd5
   border-radius: 30px;
   font-weight: 700;
   cursor: pointer;
+  transition: transform 0.2s;
 }
+.btn-reserver:hover { transform: translateY(-2px); }
+
 
 /* Reviews Specific Styling */
 .reviews-section {
@@ -784,13 +344,11 @@ body.light-mode .theme-toggle-btn { background: #e2e8f0; border: 1px solid #cbd5
   border-top: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-.review-card {
-  justify-content: space-between;
-}
-
+.review-card { padding: 26px; justify-content: space-between; }
 .review-stars { color: #f59e0b; margin-bottom: 12px; font-size: 1rem; }
 .review-text { font-size: 0.95rem; color: #cbd5e1; font-style: italic; margin-bottom: 20px; line-height: 1.6; }
 .review-author { font-weight: 700; color: #2dd4bf; font-size: 0.9rem; display: flex; align-items: center; gap: 8px; }
+
 
 /* Floating WhatsApp Button */
 .whatsapp-float {
@@ -809,366 +367,149 @@ body.light-mode .theme-toggle-btn { background: #e2e8f0; border: 1px solid #cbd5
   box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
   z-index: 1500;
   text-decoration: none;
+  animation: bounceFloat 3s infinite ease-in-out;
   transition: transform 0.3s ease;
 }
-.whatsapp-float:hover { transform: scale(1.1); }
+
+@keyframes bounceFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+.whatsapp-float:hover { transform: scale(1.15) rotate(10deg); }
+
+
+/* Scroll Reveal Animations */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
+}
 
 .fade-effect { opacity: 0.3; }
 
+/* Responsive Media Queries */
 @media (max-width: 768px) {
   .hero-content h1 { font-size: 2.2rem; }
   .tours-grid, .reviews-grid { grid-template-columns: 1fr; }
   .nav-links { display: none; }
 }
-/* --- TripAdvisor & Instagram Custom Pro Styling --- */
-.social-btn.tripadvisor {
-  background: #34e0a1 !important;
-  color: #0f172a !important;
-  font-weight: 800;
+/* 🌟 Interactive Route Timeline Styling */
+.route-timeline {
   display: flex;
   align-items: center;
-  justify-content: center;
-}
-
-.social-btn.tripadvisor i {
-  color: #0f172a !important;
-  font-size: 1.1rem;
-}
-
-.social-btn.tripadvisor:hover {
-  background: #2bc48d !important;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(52, 224, 161, 0.4);
-}
-
-.social-btn.instagram:hover {
-  background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%) !important;
-  color: #fff !important;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(214, 36, 159, 0.4);
-}
-input[type="date"] {
-  direction: ltr !important;
-  text-align: left !important;
-}
-/* Styling Section Comments - Professional Look */
-.comments-section {
-  max-width: 800px;
-  margin: 50px auto;
-  padding: 30px;
-  background: #ffffff;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 15px 0;
+  padding: 12px 14px;
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(45, 212, 191, 0.2);
   border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.comments-section h3 {
-  font-size: 1.6rem;
-  color: #2c3e50;
-  margin-bottom: 20px;
-  border-bottom: 2px solid #eef2f5;
-  padding-bottom: 10px;
-}
-
-#comment-form {
+.route-step {
   display: flex;
-  flex-direction: column;
-  gap: 15px;
-  margin-bottom: 30px;
-}
-
-#comment-form input,
-#comment-form textarea {
-  width: 100%;
-  padding: 12px 15px;
-  border: 1px solid #dcdfe6;
-  border-radius: 8px;
-  font-size: 14px;
-  transition: border-color 0.3s ease;
-  outline: none;
-}
-
-#comment-form input:focus,
-#comment-form textarea:focus {
-  border-color: #3498db;
-}
-
-#comment-form textarea {
-  resize: vertical;
-  min-height: 100px;
-}
-
-#comment-form button {
-  align-self: flex-start;
-  padding: 12px 25px;
-  background-color: #27ae60;
-  color: white;
-  border: none;
-  border-radius: 8px;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
   font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-#comment-form button:hover {
-  background-color: #219150;
-}
-
-/* List of Comments */
-.comment-item {
-  background-color: #f8f9fa;
-  padding: 15px 20px;
-  border-radius: 8px;
-  margin-bottom: 15px;
-  border-left: 4px solid #27ae60;
-}
-
-.comment-item h4 {
-  margin: 0 0 8px 0;
-  color: #2c3e50;
-  font-size: 1rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.comment-item h4 span {
-  font-size: 0.8rem;
-  color: #888;
-  font-weight: normal;
-}
-
-.comment-item p {
-  margin: 0;
-  color: #555;
-  line-height: 1.5;
-}
-/* 🌟 Section Commentaires Professionnelle */
-.comments-section {
-  max-width: 800px;
-  margin: 50px auto;
-  padding: 35px;
-  background: rgba(30, 41, 59, 0.75);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 20px;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
-  color: #fff;
-  font-family: 'Poppins', sans-serif;
-}
-
-.comments-section h3 {
-  text-align: center;
-  margin-bottom: 25px;
-  font-size: 1.6rem;
   color: #2dd4bf;
-  font-weight: 700;
-  letter-spacing: 0.5px;
 }
 
-#comment-form {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  margin-bottom: 35px;
-}
-
-#comment-form input,
-#comment-form textarea {
-  width: 100%;
-  padding: 14px 18px;
-  border-radius: 12px;
-  border: 1px solid #475569;
-  background: #0f172a;
-  color: #fff;
-  font-size: 15px;
-  outline: none;
-  transition: all 0.3s ease;
-}
-
-#comment-form input:focus,
-#comment-form textarea:focus {
-  border-color: #2dd4bf;
-  box-shadow: 0 0 10px rgba(45, 212, 191, 0.3);
-}
-
-#comment-form textarea {
-  resize: vertical;
-  min-height: 110px;
-}
-
-#comment-form button {
-  background: linear-gradient(135deg, #14b8a6, #0d9488);
-  color: white;
-  padding: 14px;
-  border: none;
-  border-radius: 30px;
-  font-weight: 700;
-  font-size: 16px;
-  cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s;
-  box-shadow: 0 4px 15px rgba(20, 184, 166, 0.4);
-}
-
-#comment-form button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(20, 184, 166, 0.6);
-}
-
-/* 🌟 Liste des Commentaires */
-#comments-list {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  max-height: 400px;
-  overflow-y: auto;
-  padding-right: 5px;
-}
-
-.comment-item {
-  background: rgba(15, 23, 42, 0.85);
-  padding: 18px 22px;
-  border-radius: 14px;
-  border-left: 4px solid #2dd4bf;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-  animation: fadeIn 0.4s ease-in-out;
-}
-
-.comment-item h4 {
-  margin: 0 0 6px 0;
-  font-size: 1.1rem;
-  color: #38bdf8;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.comment-item h4 span {
-  font-size: 0.8rem;
+.route-step i {
+  font-size: 0.7rem;
   color: #94a3b8;
-  font-weight: 400;
 }
-
-.comment-item p {
-  margin: 0;
-  color: #cbd5e1;
-  font-size: 0.95rem;
-  line-height: 1.5;
-  word-break: break-word;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-.hero {
-  position: relative;
-  background-size: cover !important;
-  background-position: center center !important;
-  background-repeat: no-repeat !important;
-  width: 100%;
-  min-height: 85vh; /* ola 90vh 3la hsab l-mokhtas */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-/* 🌟 Reset Margin & Padding */
-html, body {
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  overflow-x: hidden;
-}
-
-/* 🌟 Header Transparent / Overlay Over Hero */
-.site-header {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 1000;
-  background: rgba(15, 23, 42, 0.6); /* خلفية شفافة أنيقة */
-  backdrop-filter: blur(8px);
-}
-
-/* 🌟 Full Width Hero Slider (No Borders, No Spaces) */
-.hero {
-  position: relative;
-  width: 100vw;
-  min-height: 100vh;
-  margin: 0 !important;
-  padding: 120px 20px 60px 20px !important; /* مساحة علوية للـ Header */
-  box-sizing: border-box;
-  
-  /* تجبر الصورة على تغطية المساحة بالكامل */
-  background-size: cover !important;
-  background-position: center center !important;
-  background-repeat: no-repeat !important;
-  
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background-image 0.8s ease-in-out, opacity 0.5s ease-in-out;
-}
-
-/* 🌟 Dark Overlay to Make Text Clear */
-.hero::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(15, 23, 42, 0.45); /* طبقة تظليل تبرز الخط */
-  z-index: 1;
-}
-
-.hero-content {
-  position: relative;
-  z-index: 2;
-}
-/* 🌟 Assurer que le Hero prend tout l'écran verticalement */
-.hero {
-  min-height: 100vh !important;
-  height: 100vh !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  margin-bottom: 0 !important;
-}
-
-/* 🌟 Supprimer tout espace vide au début de la section suivante */
-.catalog-section, 
-#catalog {
-  margin-top: 0 !important;
-  padding-top: 60px !important;
-}
-/* 📱 Mobile Header Responsiveness Fix */
+/* ==========================================
+   📱 Fixes Responsives Pour Mobile (Yazid Tours)
+   ========================================== */
 @media (max-width: 768px) {
+  /* 1. إصلاح الهيدر والأزرار الفوقانية */
   header {
-    flex-wrap: wrap;
-    padding: 10px 15px !important;
-    gap: 10px;
+    padding: 8px 12px !important;
+    gap: 8px !important;
+    flex-wrap: wrap !important;
+    justify-content: space-between !important;
   }
 
-  .logo, .brand-name {
-    font-size: 1.2rem !important;
+  .logo-container {
+    gap: 6px !important;
   }
 
+  .logo-container h1, .brand-name {
+    font-size: 1.1rem !important;
+  }
+
+  /* تصغير وتنسيق أزرار اللغات والوضع */
   .language-switcher {
-    display: flex;
-    gap: 4px;
+    gap: 3px !important;
   }
 
-  .language-switcher .lang-btn {
-    padding: 4px 8px;
-    font-size: 0.75rem;
+  .lang-btn {
+    padding: 3px 6px !important;
+    font-size: 0.7rem !important;
+    border-radius: 6px !important;
   }
 
-  /* تنظيم الأيقونات العلوية باش ما يتزاحموش */
-  .header-icons, .nav-icons {
-    display: flex;
-    align-items: center;
-    gap: 8px;
+  /* 2. إصلاح ارتفاع التصاوير فـ الموبايل باش يبان الكارت كامل */
+  .tour-img-box {
+    height: 190px !important;
   }
+
+  .tour-card {
+    margin-bottom: 20px !important;
+    border-radius: 16px !important;
+  }
+
+  /* 3. إصلاح زر الواتساب العائم باش ما يغطّيش على زر Réserver */
+  .whatsapp-float, #whatsapp-btn, a[href*="wa.me"] {
+    bottom: 25px !important;
+    right: 15px !important;
+    width: 48px !important;
+    height: 48px !important;
+    font-size: 22px !important;
+    z-index: 999 !important;
+  }
+
+  /* 4. تنسيق بطاقات التعليقات فـ الموبايل */
+  .review-card, .comment-item {
+    padding: 15px !important;
+    margin-bottom: 12px !important;
+  }
+}
+/* 🌟 Luxury Glassmorphism & Glow Effect for Tour Cards */
+.tour-card {
+  background: rgba(15, 23, 42, 0.75) !important;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(45, 212, 191, 0.25) !important;
+  border-radius: 20px !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+  overflow: hidden;
+}
+
+/* تأثير الرفع والاضاءة عند وضع الفأرة (Hover Effect) */
+.tour-card:hover {
+  transform: translateY(-8px) scale(1.01);
+  border-color: rgba(45, 212, 191, 0.8) !important;
+  box-shadow: 0 20px 40px rgba(45, 212, 191, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+/* تحسين شكل الخط الزمني للمسار (Route Timeline) باش يبان فخم */
+.route-timeline {
+  background: rgba(30, 41, 59, 0.8) !important;
+  border: 1px solid rgba(45, 212, 191, 0.3) !important;
+  border-radius: 10px;
+  padding: 10px 14px;
+}
+
+.route-step {
+  color: #38bdf8 !important;
+  font-weight: 700;
 }
