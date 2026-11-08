@@ -117,7 +117,7 @@ const heroImages = [
 ];
 let currentHeroIndex = 0;
 
-// 🌟 Translations including Booking Form elements
+// 🌟 Complete Multi-Language Dictionary
 const translations = {
   fr: {
     nav_home: "Accueil",
@@ -127,6 +127,8 @@ const translations = {
     hero_btn: "Explorer les Circuits",
     catalog_title: "Nos Excursions",
     book_title: "Réserver",
+    lbl_start_date: "Date d'arrivée :",
+    lbl_end_date: "Date de départ :",
     ph_name: "Votre Nom",
     ph_phone: "Votre Téléphone",
     ph_guests: "Nombre de personnes",
@@ -141,6 +143,8 @@ const translations = {
     hero_btn: "Explore Tours",
     catalog_title: "Our Excursions",
     book_title: "Book Tour",
+    lbl_start_date: "Arrival Date:",
+    lbl_end_date: "Departure Date:",
     ph_name: "Your Name",
     ph_phone: "Your Phone",
     ph_guests: "Number of guests",
@@ -155,6 +159,8 @@ const translations = {
     hero_btn: "Explorar Excursiones",
     catalog_title: "Nuestras Excursiones",
     book_title: "Reservar Excursión",
+    lbl_start_date: "Fecha de llegada:",
+    lbl_end_date: "Fecha de salida:",
     ph_name: "Tu Nombre",
     ph_phone: "Tu Teléfono",
     ph_guests: "Número de personas",
@@ -220,7 +226,7 @@ function renderTours(lang) {
       </span>
     `).join('');
 
-    const reserveBtnText = translations[lang] ? (lang === 'en' ? 'Book Now' : (lang === 'es' ? 'Reservar' : 'Réserver')) : 'Réserver';
+    const reserveBtnText = lang === 'en' ? 'Book Now' : (lang === 'es' ? 'Reservar' : 'Réserver');
 
     return `
       <div class="tour-card">
@@ -300,30 +306,19 @@ function updateTourImage(tourId, src) {
   }
 }
 
-// Modal & Booking Logic with Auto Language Form Update & Logical Date Restriction
-function openBookingModal(tourName) {
-  selectedTourTitle = tourName;
-  const titleEl = document.getElementById('modal-tour-title');
+// 🌟 Helper: Translate All Modal Form Elements Dynamically
+function updateModalTranslations() {
   const t = translations[currentLang] || translations['fr'];
-  
-  if (titleEl) titleEl.innerText = `${t.book_title}: ` + tourName;
-  
-  // 🌟 منع اختيار تواريخ قديمة وجعل تاريخ اليوم هو الحد الأدنى المسموح به
-  const today = new Date().toISOString().split('T')[0];
-  const startDateInput = document.getElementById('client-start-date');
-  const endDateInput = document.getElementById('client-end-date');
-  
-  if (startDateInput) {
-    startDateInput.min = today;
-    startDateInput.value = today;
-  }
-  
-  if (endDateInput) {
-    endDateInput.min = today;
-    endDateInput.value = today;
-  }
 
-  // تحديث Placeholders والأزرار حسب لغة الموقع الحالية
+  // Translate all labels & text with data-key inside modal
+  document.querySelectorAll('#booking-modal [data-key]').forEach(el => {
+    const key = el.getAttribute('data-key');
+    if (t[key]) {
+      el.textContent = t[key];
+    }
+  });
+
+  // Translate Placeholders & Button texts
   const clientName = document.getElementById('client-name');
   const clientPhone = document.getElementById('client-phone');
   const clientGuests = document.getElementById('client-guests');
@@ -337,6 +332,26 @@ function openBookingModal(tourName) {
   if (whatsappBtn) {
     whatsappBtn.innerHTML = `<i class="fa-brands fa-whatsapp"></i> ${t.btn_whatsapp}`;
   }
+}
+
+// Modal & Booking Logic
+function openBookingModal(tourName) {
+  selectedTourTitle = tourName;
+  const t = translations[currentLang] || translations['fr'];
+  
+  const titleEl = document.getElementById('modal-tour-title');
+  if (titleEl) titleEl.innerText = `${t.book_title}: ${tourName}`;
+  
+  // 🌟 Restrict dates to today onwards
+  const today = new Date().toISOString().split('T')[0];
+  const startDateInput = document.getElementById('client-start-date');
+  const endDateInput = document.getElementById('client-end-date');
+  
+  if (startDateInput) { startDateInput.min = today; startDateInput.value = today; }
+  if (endDateInput) { endDateInput.min = today; endDateInput.value = today; }
+
+  // Apply translations to inputs/labels inside modal
+  updateModalTranslations();
   
   const modal = document.getElementById('booking-modal');
   if (modal) modal.style.display = "flex";
@@ -403,25 +418,16 @@ function sendViaWhatsApp() {
     return;
   }
 
-  let lang = currentLang || 'fr';
-  const activeLangBtn = document.querySelector('.language-switcher .lang-btn.active');
-  if (activeLangBtn) {
-    const btnText = activeLangBtn.innerText.toLowerCase();
-    if (btnText.includes('en')) lang = 'en';
-    else if (btnText.includes('es')) lang = 'es';
-    else if (btnText.includes('fr')) lang = 'fr';
-  }
-
   const whatsappNum = "212632634184"; 
-  const bookingPeriod = `Du ${startDate} au ${endDate}`;
+  const bookingPeriod = `From ${startDate} to ${endDate}`;
   let msg = "";
 
-  if (lang === 'en') {
-    msg = `Hello Yazid Tours,\n\nI would like to book: *${selectedTourTitle || "Tour"}*\nName: ${name}\nPhone: ${phone}\nPeriod: From ${startDate} to ${endDate}\nGuests: ${guests}\n\nThank you!`;
-  } else if (lang === 'es') {
+  if (currentLang === 'en') {
+    msg = `Hello Yazid Tours,\n\nI would like to book: *${selectedTourTitle || "Tour"}*\nName: ${name}\nPhone: ${phone}\nPeriod: ${bookingPeriod}\nGuests: ${guests}\n\nThank you!`;
+  } else if (currentLang === 'es') {
     msg = `¡Hola Yazid Tours!\n\nMe gustaría reservar: *${selectedTourTitle || "Tour"}*\nNombre: ${name}\nTeléfono: ${phone}\nPeriodo: Del ${startDate} al ${endDate}\nPersonas: ${guests}\n\n¡Gracias!`;
   } else {
-    msg = `Bonjour Yazid Tours,\n\nJe souhaite réserver : *${selectedTourTitle || "Tour"}*\nNom : ${name}\nTéléphone : ${phone}\nPériode : ${bookingPeriod}\nPersonnes : ${guests}\n\nMerci !`;
+    msg = `Bonjour Yazid Tours,\n\nJe souhaite réserver : *${selectedTourTitle || "Tour"}*\nNom : ${name}\nTéléphone : ${phone}\nPériode : Du ${startDate} au ${endDate}\nPersonnes : ${guests}\n\nMerci !`;
   }
 
   window.open(`https://wa.me/${whatsappNum}?text=${encodeURIComponent(msg)}`, '_blank');
@@ -487,7 +493,7 @@ function displayComment(comment) {
   commentsList.prepend(commentDiv);
 }
 
-// 2. Fonction changeLanguage
+// 2. Dynamic Change Language
 function changeLanguage(lang) {
   currentLang = lang;
 
@@ -501,6 +507,9 @@ function changeLanguage(lang) {
       }
     });
   }
+
+  // 🌟 استدعاء دالة الترجمة هنا باش حتى النافذة تترجم فوراً
+  updateModalTranslations();
 
   document.querySelectorAll('.lang-btn, .lang-option').forEach(btn => {
     btn.classList.remove('active');
@@ -530,30 +539,3 @@ function revealOnScroll() {
 
 window.addEventListener('scroll', revealOnScroll);
 window.addEventListener('load', revealOnScroll);
-// 🌟 دالة مسؤولة عن ترجمة نافذة الحجز فوراً حسب اللغة النشطة
-function updateBookingModalLanguage() {
-  const t = translations[currentLang] || translations['fr'];
-  
-  // ترجمة النصوص التي تحتوي على data-key داخل النافذة
-  document.querySelectorAll('#booking-modal [data-key]').forEach(el => {
-    const key = el.getAttribute('data-key');
-    if (t[key]) {
-      el.textContent = t[key];
-    }
-  });
-
-  // ترجمة خانات الإدخال (Placeholders)
-  const clientName = document.getElementById('client-name');
-  const clientPhone = document.getElementById('client-phone');
-  const clientGuests = document.getElementById('client-guests');
-  const emailBtn = document.querySelector('.btn-email');
-  const whatsappBtn = document.querySelector('.btn-whatsapp');
-
-  if (clientName && t.ph_name) clientName.placeholder = t.ph_name;
-  if (clientPhone && t.ph_phone) clientPhone.placeholder = t.ph_phone;
-  if (clientGuests && t.ph_guests) clientGuests.placeholder = t.ph_guests;
-  if (emailBtn && t.btn_email) emailBtn.textContent = t.btn_email;
-  if (whatsappBtn && t.btn_whatsapp) {
-    whatsappBtn.innerHTML = `<i class="fa-brands fa-whatsapp"></i> ${t.btn_whatsapp}`;
-  }
-}
