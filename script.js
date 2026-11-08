@@ -530,3 +530,30 @@ function revealOnScroll() {
 
 window.addEventListener('scroll', revealOnScroll);
 window.addEventListener('load', revealOnScroll);
+// 🌟 دالة مسؤولة عن ترجمة نافذة الحجز فوراً حسب اللغة النشطة
+function updateBookingModalLanguage() {
+  const t = translations[currentLang] || translations['fr'];
+  
+  // ترجمة النصوص التي تحتوي على data-key داخل النافذة
+  document.querySelectorAll('#booking-modal [data-key]').forEach(el => {
+    const key = el.getAttribute('data-key');
+    if (t[key]) {
+      el.textContent = t[key];
+    }
+  });
+
+  // ترجمة خانات الإدخال (Placeholders)
+  const clientName = document.getElementById('client-name');
+  const clientPhone = document.getElementById('client-phone');
+  const clientGuests = document.getElementById('client-guests');
+  const emailBtn = document.querySelector('.btn-email');
+  const whatsappBtn = document.querySelector('.btn-whatsapp');
+
+  if (clientName && t.ph_name) clientName.placeholder = t.ph_name;
+  if (clientPhone && t.ph_phone) clientPhone.placeholder = t.ph_phone;
+  if (clientGuests && t.ph_guests) clientGuests.placeholder = t.ph_guests;
+  if (emailBtn && t.btn_email) emailBtn.textContent = t.btn_email;
+  if (whatsappBtn && t.btn_whatsapp) {
+    whatsappBtn.innerHTML = `<i class="fa-brands fa-whatsapp"></i> ${t.btn_whatsapp}`;
+  }
+}
