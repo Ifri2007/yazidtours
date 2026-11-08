@@ -10,7 +10,7 @@ const toursData = [
       "merzouga/merzouga5.jpeg"
     ],
     duration: { fr: "3 Jours / 2 Nuits", en: "3 Days / 2 Nights", es: "3 Días / 2 Noches" },
-    price: "140€ / personne",
+    price: "14€ / personne",
     title: {
       fr: "Circuit en Groupe – Désert de Merzouga depuis Marrakech – 3 Jours, 2 Nuits",
       en: "Group Tour – Merzouga Desert Tour from Marrakech – 3 Days, 2 Nights",
