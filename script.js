@@ -310,7 +310,6 @@ function updateTourImage(tourId, src) {
 function updateModalTranslations() {
   const t = translations[currentLang] || translations['fr'];
 
-  // Translate all labels & text with data-key inside modal
   document.querySelectorAll('#booking-modal [data-key]').forEach(el => {
     const key = el.getAttribute('data-key');
     if (t[key]) {
@@ -318,7 +317,6 @@ function updateModalTranslations() {
     }
   });
 
-  // Translate Placeholders & Button texts
   const clientName = document.getElementById('client-name');
   const clientPhone = document.getElementById('client-phone');
   const clientGuests = document.getElementById('client-guests');
@@ -342,7 +340,6 @@ function openBookingModal(tourName) {
   const titleEl = document.getElementById('modal-tour-title');
   if (titleEl) titleEl.innerText = `${t.book_title}: ${tourName}`;
   
-  // 🌟 Restrict dates to today onwards
   const today = new Date().toISOString().split('T')[0];
   const startDateInput = document.getElementById('client-start-date');
   const endDateInput = document.getElementById('client-end-date');
@@ -350,7 +347,6 @@ function openBookingModal(tourName) {
   if (startDateInput) { startDateInput.min = today; startDateInput.value = today; }
   if (endDateInput) { endDateInput.min = today; endDateInput.value = today; }
 
-  // Apply translations to inputs/labels inside modal
   updateModalTranslations();
   
   const modal = document.getElementById('booking-modal');
@@ -374,9 +370,16 @@ function initModalLogic() {
   });
 }
 
-// EmailJS Booking Submit Handler
+// EmailJS Booking Submit Handler with Turnstile Verification
 function handleBookingSubmit(event) {
   event.preventDefault();
+
+  // 🛡️ Vérification Cloudflare Turnstile Token
+  const turnstileToken = document.querySelector('[name="cf-turnstile-response"]')?.value;
+  if (!turnstileToken) {
+    alert(currentLang === 'en' ? 'Please complete the Turnstile security check.' : (currentLang === 'es' ? 'Por favor complete la verificación de seguridad Turnstile.' : 'Veuillez valider le test de sécurité Turnstile.'));
+    return;
+  }
 
   const name = document.getElementById('client-name').value;
   const phone = document.getElementById('client-phone').value;
@@ -405,8 +408,15 @@ function handleBookingSubmit(event) {
     });
 }
 
-// 🌟 WhatsApp Booking Handler with Multi-language Automatic Support
+// 🌟 WhatsApp Booking Handler with Turnstile Multi-language Support
 function sendViaWhatsApp() {
+  // 🛡️ Vérification Cloudflare Turnstile Token
+  const turnstileToken = document.querySelector('[name="cf-turnstile-response"]')?.value;
+  if (!turnstileToken) {
+    alert(currentLang === 'en' ? 'Please complete the Turnstile security check.' : (currentLang === 'es' ? 'Por favor complete la verificación de seguridad Turnstile.' : 'Veuillez valider le test de sécurité Turnstile.'));
+    return;
+  }
+
   const name = document.getElementById('client-name').value;
   const phone = document.getElementById('client-phone').value;
   const startDate = document.getElementById('client-start-date').value;
@@ -508,7 +518,6 @@ function changeLanguage(lang) {
     });
   }
 
-  // 🌟 استدعاء دالة الترجمة هنا باش حتى النافذة تترجم فوراً
   updateModalTranslations();
 
   document.querySelectorAll('.lang-btn, .lang-option').forEach(btn => {
