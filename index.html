@@ -12,6 +12,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  <!-- 🌟 Cloudflare Turnstile Script -->
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+
   <!-- 🌟 Enhanced SEO Meta Tags -->
   <title>Yazid Tours | Best Morocco Sahara Tours, Merzouga & Marrakech Excursions</title>
   <meta name="description" content="Book unforgettable Morocco tours, Merzouga desert trips, and Marrakech excursions with Yazid Tours. Authentic Berber hospitality, private transfers, and top-rated Sahara experiences.">
@@ -170,6 +173,11 @@
           <input type="number" id="client-guests" placeholder="Nombre de personnes" min="1" required style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #475569; background: #0f172a; color: #fff;">
         </div>
         
+        <!-- 🛡️ Cloudflare Turnstile Widget -->
+        <div style="margin-bottom: 20px; display: flex; justify-content: center;">
+          <div class="cf-turnstile" data-sitekey="0x4AAAAAAF9hgKwv5yoZ_KMf" data-theme="dark"></div>
+        </div>
+
         <!-- Buttons Choice -->
         <div style="display: flex; gap: 10px;">
           <button type="submit" class="btn-email" data-key="btn_email" style="flex: 1; background: linear-gradient(135deg, #14b8a6, #0d9488); color: white; padding: 12px; border: none; border-radius: 30px; font-weight: 700; cursor: pointer;">Envoyer par Email</button>
