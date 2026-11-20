@@ -1,5 +1,5 @@
-// 1. Les Excursions Data dans les 3 langues (FR, EN, ES)
-const toursData = [
+// 1. Les Excursions Data (synchronisé avec admin.html via localStorage 'yazid_tours_v2')
+const DEFAULT_TOURS_DATA = [
   {
     id: 1,
     images: [
@@ -10,6 +10,7 @@ const toursData = [
       "merzouga/merzouga5.jpeg"
     ],
     duration: { fr: "3 Jours / 2 Nuits", en: "3 Days / 2 Nights", es: "3 Días / 2 Noches" },
+    route: ["Marrakech", "Aït Ben Haddou", "Ouarzazate", "Merzouga"],
     price: "140€ / personne",
     title: {
       fr: "Circuit en Groupe – Désert de Merzouga depuis Marrakech – 3 Jours, 2 Nuits",
@@ -32,6 +33,7 @@ const toursData = [
       "merzouga/merzouga10.jpeg"
     ],
     duration: { fr: "4 Jours", en: "4 Days", es: "4 Días" },
+    route: ["Marrakech", "Aït Ben Haddou", "Ouarzazate", "Dadès", "Merzouga"],
     price: "500€ / personne",
     title: {
       fr: "Circuit Privé – Désert de Merzouga depuis Marrakech – 4 Jours",
@@ -39,7 +41,7 @@ const toursData = [
       es: "Tour Privado – Tour por el desierto de Merzouga desde Marrakech – 4 Días"
     },
     desc: {
-      fr: "Jour 1 : Marrakech – Haut Atlas – Aït Ben Haddou – Ouarzazate\nDépart de Marrakech pour traverser les montagnes du Haut Atlas via le spectaculaire col du Tizi n’Tichka. Profitez de magnifiques paysages montagneux et de villages amazighs traditionnels avant de visiter l'historique Kasbah d'Aït Ben Haddou. Continuez vers Ouarzazate, célèbre pour ses kasbahs et ses studios de cinéma, où vous passerez la nuit.\n\nJour 2 : Ouarzazate – Skoura – Vallée des Roses – Gorges du Dadès\nAprès le petit-déjeuner, traversez l'oasis de Skoura, connue pour ses palmeraies et ses kasbahs traditionnelles. Poursuivez à travers la Vallée des Roses et découvrez les paysages changeants du grand Sud marocain avant d'atteindre les Gorges du Dadès. Admirez ses formations rocheuses impressionnantes et ses routes serpentantes avant de passer la nuit à l'hôtel.\n\nJour 3 : Gorges du Dadès – Gorges du Todra – Désert de Merzouga\nVisitez les impressionnantes Gorges du Todra, où des falaises vertigineuses surplombent une étroite vallée. Continuez à travers des villages traditionnels et des paysages verdoyants vers Merzouga. Profitez d'une balade à dos de dromadaire au coucher du soleil à travers les dunes dorées du Sahara, suivie d'un dîner et d'une nuit sous la tente dans un campement du désert.\n\nJour 4 : Merzouga – Marrakech\nAdmirez le lever du soleil sur les dunes avant le petit-déjeuner. Entamez le voyage de retour vers Marrakech en traversant à nouveau les paysages du Sud et les montagnes du Haut Atlas, avec plusieurs pauses en chemin.\n\nCe jour supplémentaire vous permet de mieux apprécier la beauté des paysages marocains et de vivre l'expérience du désert en toute sérénité, sans vous presser.",
+      fr: "Jour 1 : Marrakech – Haut Atlas – Aït Ben Haddou – Ouarzazate\nDépart de Marrakech pour traverser les montagnes du Haut Atlas via le col du Tizi n’Tichka. Profitez de magnifiques paysages montagneux et de villages amazighs traditionnels avant de visiter l'historique Kasbah d'Aït Ben Haddou. Continuez vers Ouarzazate, célèbre pour ses kasbahs et ses studios de cinéma, où vous passerez la nuit.\n\nJour 2 : Ouarzazate – Skoura – Vallée des Roses – Gorges du Dadès\nAprès le petit-déjeuner, traversez l'oasis de Skoura, connue pour ses palmeraies et ses kasbahs traditionnelles. Poursuivez à travers la Vallée des Roses et découvrez les paysages changeants du grand Sud marocain avant d'atteindre les Gorges du Dadès. Admirez ses formations rocheuses impressionnantes et ses routes serpentantes avant de passer la nuit à l'hôtel.\n\nJour 3 : Gorges du Dadès – Gorges du Todra – Désert de Merzouga\nVisitez les impressionnantes Gorges du Todra, où des falaises vertigineuses surplombent une étroite vallée. Continuez à travers des villages traditionnels et des paysages verdoyants vers Merzouga. Profitez d'une balade à dos de dromadaire au coucher du soleil à travers les dunes dorées du Sahara, suivie d'un dîner et d'une nuit sous la tente dans un campement du désert.\n\nJour 4 : Merzouga – Marrakech\nAdmirez le lever du soleil sur les dunes avant le petit-déjeuner. Entamez le voyage de retour vers Marrakech en traversant à nouveau les paysages du Sud et les montagnes du Haut Atlas, avec plusieurs pauses en chemin.\n\nCe jour supplémentaire vous permet de mieux apprécier la beauté des paysages marocains et de vivre l'expérience du désert en toute sérénité, sans vous presser.",
       en: "Day 1: Marrakech – High Atlas Mountains – Aït Ben Haddou – Ouarzazate\nDepart Marrakech and cross the High Atlas Mountains through the spectacular Tizi n’Tichka Pass. Enjoy beautiful mountain scenery and traditional Amazigh villages before visiting the historic Aït Ben Haddou Kasbah. Continue to Ouarzazate, known for its kasbahs and film studios, where you will spend the night.\n\nDay 2: Ouarzazate – Skoura – Valley of Roses – Dades Gorge\nAfter breakfast, travel through the Skoura oasis, known for its palm groves and traditional kasbahs. Continue through the Valley of Roses and discover the changing landscapes of southern Morocco before reaching Dades Gorge. Admire its dramatic rock formations and winding roads before spending the night in a hotel.\n\nDay 3: Dades Gorge – Todra Gorge – Merzouga Desert\nVisit the impressive Todra Gorge, where towering cliffs rise above a narrow valley. Continue through traditional villages and palm-filled landscapes towards Merzouga. Enjoy a camel ride at sunset across the golden Sahara dunes, followed by dinner and an overnight stay at a desert camp.\n\nDay 4: Merzouga – Marrakech\nEnjoy the sunrise over the dunes before breakfast. Begin the return journey to Marrakech, passing through the landscapes of southern Morocco and the High Atlas Mountains, with stops along the way.\n\nThe extra day gives you more time to appreciate Morocco’s scenery and enjoy the desert experience without rushing through every destination.",
       es: "Día 1: Marrakech – Montañas del Alto Atlas – Aït Ben Haddou – Ouarzazate\nSal de Marrakech cruzando el Alto Atlas por Tizi n’Tichka y visita la histórica Kasbah de Aït Ben Haddou. Noche en Ouarzazate.\n\nDía 2: Ouarzazate – Skoura – Valle de las Rosas – Garganta del Dades\nViaja a través del oasis de Skoura y el Valle de las Rosas hasta llegar a la Garganta del Dades.\n\nDía 3: Garganta del Dades – Garganta de Todra – Desierto de Merzouga\nVisita la Garganta de Todra y continúa hacia Merzouga. Disfruta de un paseo en camello al atardecer y noche en campamento de lujo.\n\nDía 4: Merzouga – Marrakech\nAmanecer en las dunas y viaje de regreso a Marrakech."
     }
@@ -52,6 +54,7 @@ const toursData = [
       "merzouga/merzouga5.jpeg"
     ],
     duration: { fr: "3 Jours / 2 Nuits", en: "3 Days / 2 Nights", es: "3 Días / 2 Noches" },
+    route: ["Marrakech", "Tichka", "Dadès", "Merzouga (Luxe)"],
     price: "600€ / personne",
     title: {
       fr: "Circuit Privé de Luxe dans le Désert de Merzouga depuis Marrakech – 3 Jours, 2 Nuits",
@@ -71,6 +74,7 @@ const toursData = [
       "ourika/ourika2.webp"
     ],
     duration: { fr: "1 Jour", en: "1 Day", es: "1 Día" },
+    route: ["Marrakech", "Ourika", "Setti Fatma"],
     price: "22€ / personne",
     title: {
       fr: "Excursion en Groupe dans la Vallée de l'Ourika depuis Marrakech",
@@ -90,6 +94,7 @@ const toursData = [
       "ourika/ourika4.webp"
     ],
     duration: { fr: "1 Jour", en: "1 Day", es: "1 Día" },
+    route: ["Marrakech", "Ourika", "Setti Fatma"],
     price: "100€ / véhicule",
     title: {
       fr: "Excursion Privée dans la Vallée de l'Ourika depuis Marrakech",
@@ -104,6 +109,20 @@ const toursData = [
   }
 ];
 
+function getToursData() {
+  try {
+    const saved = JSON.parse(localStorage.getItem('yazid_tours_v2'));
+    if (Array.isArray(saved) && saved.length > 0) {
+      return saved;
+    }
+  } catch (e) {
+    console.warn("Erreur lecture localStorage yazid_tours_v2:", e);
+  }
+  return DEFAULT_TOURS_DATA;
+}
+
+const toursData = getToursData();
+
 // Global Variables
 const sliderIndices = {};
 let currentLang = 'fr';
@@ -117,7 +136,6 @@ const heroImages = [
 ];
 let currentHeroIndex = 0;
 
-// 🌟 Complete Multi-Language Dictionary
 const translations = {
   fr: {
     nav_home: "Accueil",
@@ -125,15 +143,7 @@ const translations = {
     hero_title: "Explore Morocco With Yazid Tours",
     hero_desc: "Des excursions inoubliables au départ de Marrakech, Ouarzazate, Merzouga et plus.",
     hero_btn: "Explorer les Circuits",
-    catalog_title: "Nos Excursions",
-    book_title: "Réserver",
-    lbl_start_date: "Date d'arrivée :",
-    lbl_end_date: "Date de départ :",
-    ph_name: "Votre Nom",
-    ph_phone: "Votre Téléphone",
-    ph_guests: "Nombre de personnes",
-    btn_email: "Envoyer par Email",
-    btn_whatsapp: "WhatsApp"
+    catalog_title: "Nos Excursions"
   },
   en: {
     nav_home: "Home",
@@ -141,15 +151,7 @@ const translations = {
     hero_title: "Explore Morocco With Yazid Tours",
     hero_desc: "Unforgettable excursions departing from Marrakech, Ouarzazate, Merzouga and more.",
     hero_btn: "Explore Tours",
-    catalog_title: "Our Excursions",
-    book_title: "Book Tour",
-    lbl_start_date: "Arrival Date:",
-    lbl_end_date: "Departure Date:",
-    ph_name: "Your Name",
-    ph_phone: "Your Phone",
-    ph_guests: "Number of guests",
-    btn_email: "Send via Email",
-    btn_whatsapp: "WhatsApp"
+    catalog_title: "Our Excursions"
   },
   es: {
     nav_home: "Inicio",
@@ -157,21 +159,15 @@ const translations = {
     hero_title: "Explore Morocco With Yazid Tours",
     hero_desc: "Excursiones inolvidables saliendo de Marrakech, Ouarzazate, Merzouga y más.",
     hero_btn: "Explorar Excursiones",
-    catalog_title: "Nuestras Excursiones",
-    book_title: "Reservar Excursión",
-    lbl_start_date: "Fecha de llegada:",
-    lbl_end_date: "Fecha de salida:",
-    ph_name: "Tu Nombre",
-    ph_phone: "Tu Teléfono",
-    ph_guests: "Número de personas",
-    btn_email: "Enviar por Correo",
-    btn_whatsapp: "WhatsApp"
+    catalog_title: "Nuestras Excursiones"
   }
 };
 
 // Initialisation EmailJS
 (function() {
+  if (typeof emailjs !== "undefined") {
     emailjs.init("T2NJ0IBkxyouAJAkr");
+  }
 })();
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -192,12 +188,12 @@ function initHeroSlider() {
   setInterval(() => {
     currentHeroIndex = (currentHeroIndex + 1) % heroImages.length;
     heroSection.style.opacity = '0.7';
-    
+
     setTimeout(() => {
       heroSection.style.backgroundImage = `url('${heroImages[currentHeroIndex]}')`;
       heroSection.style.opacity = '1';
     }, 400);
-  }, 5000); 
+  }, 5000);
 }
 
 // Render Tours with Interactive Route Timeline
@@ -205,16 +201,26 @@ function renderTours(lang) {
   const container = document.getElementById('tours-container');
   if (!container) return;
 
-  container.innerHTML = toursData.map(tour => {
+  const activeTours = getToursData();
+
+  container.innerHTML = activeTours.map(tour => {
     sliderIndices[tour.id] = 0;
-    const hasMultipleImages = tour.images && tour.images.length > 1;
-    
-    const title = (tour.title && (tour.title[lang] || tour.title['fr'])) || tour.title || '';
-    const desc = (tour.desc && (tour.desc[lang] || tour.desc['fr'])) || tour.description || tour.desc || '';
-    const duration = (tour.duration && (tour.duration[lang] || tour.duration['fr'])) || tour.duration || '';
+    const imgs = Array.isArray(tour.images) && tour.images.length
+      ? tour.images
+      : (tour.img ? [tour.img] : ["cover.jpeg"]);
+
+    const hasMultipleImages = imgs.length > 1;
+
+    const title = (tour.title && typeof tour.title === 'object' ? (tour.title[lang] || tour.title['fr']) : tour.title) || '';
+    const desc = (tour.desc && typeof tour.desc === 'object' ? (tour.desc[lang] || tour.desc['fr']) : (tour.description || tour.desc)) || '';
+    const duration = (tour.duration && typeof tour.duration === 'object' ? (tour.duration[lang] || tour.duration['fr']) : tour.duration) || '';
 
     let routePoints = ["Marrakech", "Aït Ben Haddou", "Ouarzazate", "Merzouga"];
-    if (tour.id === 4 || tour.id === 5) {
+    if (Array.isArray(tour.route) && tour.route.length > 0) {
+      routePoints = tour.route;
+    } else if (typeof tour.route === 'string' && tour.route.trim()) {
+      routePoints = tour.route.split(/,|→/).map(s => s.trim()).filter(Boolean);
+    } else if (tour.id === 4 || tour.id === 5) {
       routePoints = ["Marrakech", "Ourika", "Setti Fatma"];
     } else if (tour.id === 3) {
       routePoints = ["Marrakech", "Tichka", "Dadès", "Merzouga (Luxe)"];
@@ -226,71 +232,73 @@ function renderTours(lang) {
       </span>
     `).join('');
 
-    const reserveBtnText = lang === 'en' ? 'Book Now' : (lang === 'es' ? 'Reservar' : 'Réserver');
-
     return `
       <div class="tour-card">
         <div class="tour-img-box">
           <span class="badge"><i class="fa-solid fa-clock"></i> ${duration}</span>
-          <img id="slider-img-${tour.id}" src="${tour.images[0]}" alt="${title}">
-          
+          <img id="slider-img-${tour.id}" src="${imgs[0]}" alt="${title}" onerror="this.src='cover.jpeg'">
+
           ${hasMultipleImages ? `
             <button class="slider-btn prev-btn" onclick="prevImage(${tour.id})"><i class="fa-solid fa-chevron-left"></i></button>
             <button class="slider-btn next-btn" onclick="nextImage(${tour.id})"><i class="fa-solid fa-chevron-right"></i></button>
           ` : ''}
         </div>
-        
+
         <div class="tour-info">
           <h3>${title}</h3>
-          
+
           <div class="route-timeline">
             ${timelineHtml}
           </div>
 
           <p class="desc" style="white-space: pre-line; max-height: 130px; overflow-y: auto;">${desc}</p>
-          
+
           <div class="tour-footer">
             <div class="price">${tour.price}</div>
-            <button class="btn-reserver" onclick="openBookingModal('${title.replace(/'/g, "\\'")}')">
-              ${reserveBtnText}
+            <button class="btn-reserver" onclick="openBookingModal('${String(title).replace(/'/g, "\\'")}')">
+              Réserver
             </button>
           </div>
         </div>
       </div>
     `;
   }).join('');
+
+  revealOnScroll();
 }
 
 // Sliders function
 function initTourAutoSliders() {
-  toursData.forEach(tour => {
-    if (tour.images && tour.images.length > 1) {
+  const activeTours = getToursData();
+  activeTours.forEach(tour => {
+    const imgs = Array.isArray(tour.images) ? tour.images : [];
+    if (imgs.length > 1) {
       setInterval(() => {
-        sliderIndices[tour.id] = (sliderIndices[tour.id] + 1) % tour.images.length;
+        sliderIndices[tour.id] = (sliderIndices[tour.id] + 1) % imgs.length;
         const imgElement = document.getElementById(`slider-img-${tour.id}`);
-        
+
         if (imgElement) {
           imgElement.classList.add("fade-effect");
           setTimeout(() => {
-            imgElement.src = tour.images[sliderIndices[tour.id]];
+            imgElement.src = imgs[sliderIndices[tour.id]];
             imgElement.classList.remove("fade-effect");
           }, 300);
         }
-      }, 4500); 
+      }, 4500);
     }
   });
 }
 
 function nextImage(tourId) {
-  const tour = toursData.find(t => t.id === tourId);
-  if (!tour) return;
+  const tour = getToursData().find(t => t.id === tourId);
+  if (!tour || !Array.isArray(tour.images) || !tour.images.length) return;
   sliderIndices[tourId] = (sliderIndices[tourId] + 1) % tour.images.length;
   updateTourImage(tourId, tour.images[sliderIndices[tourId]]);
 }
 
 function prevImage(tourId) {
-  const tour = toursData.find(t => t.id === tourId);
-  if (!tour) return;
+  const tour = getToursData().find(t => t.id === tourId);
+  if (!tour || !Array.isArray(tour.images) || !tour.images.length) return;
   sliderIndices[tourId] = (sliderIndices[tourId] - 1 + tour.images.length) % tour.images.length;
   updateTourImage(tourId, tour.images[sliderIndices[tourId]]);
 }
@@ -306,51 +314,17 @@ function updateTourImage(tourId, src) {
   }
 }
 
-// 🌟 Helper: Translate All Modal Form Elements Dynamically
-function updateModalTranslations() {
-  const t = translations[currentLang] || translations['fr'];
-
-  document.querySelectorAll('#booking-modal [data-key]').forEach(el => {
-    const key = el.getAttribute('data-key');
-    if (t[key]) {
-      el.textContent = t[key];
-    }
-  });
-
-  const clientName = document.getElementById('client-name');
-  const clientPhone = document.getElementById('client-phone');
-  const clientGuests = document.getElementById('client-guests');
-  const emailBtn = document.querySelector('.btn-email');
-  const whatsappBtn = document.querySelector('.btn-whatsapp');
-
-  if (clientName) clientName.placeholder = t.ph_name;
-  if (clientPhone) clientPhone.placeholder = t.ph_phone;
-  if (clientGuests) clientGuests.placeholder = t.ph_guests;
-  if (emailBtn) emailBtn.textContent = t.btn_email;
-  if (whatsappBtn) {
-    whatsappBtn.innerHTML = `<i class="fa-brands fa-whatsapp"></i> ${t.btn_whatsapp}`;
-  }
-}
-
 // Modal & Booking Logic
 function openBookingModal(tourName) {
   selectedTourTitle = tourName;
-  const t = translations[currentLang] || translations['fr'];
-  
   const titleEl = document.getElementById('modal-tour-title');
-  if (titleEl) titleEl.innerText = `${t.book_title}: ${tourName}`;
-  
-  const today = new Date().toISOString().split('T')[0];
-  const startDateInput = document.getElementById('client-start-date');
-  const endDateInput = document.getElementById('client-end-date');
-  
-  if (startDateInput) { startDateInput.min = today; startDateInput.value = today; }
-  if (endDateInput) { endDateInput.min = today; endDateInput.value = today; }
+  if (titleEl) titleEl.innerText = "Réserver: " + tourName;
 
-  updateModalTranslations();
-  
   const modal = document.getElementById('booking-modal');
   if (modal) modal.style.display = "flex";
+
+  const form = document.getElementById('booking-form');
+  if (form) form.reset();
 }
 
 function initModalLogic() {
@@ -370,16 +344,9 @@ function initModalLogic() {
   });
 }
 
-// EmailJS Booking Submit Handler with Turnstile Verification
+// EmailJS Booking Submit Handler
 function handleBookingSubmit(event) {
   event.preventDefault();
-
-  // 🛡️ Vérification Cloudflare Turnstile Token
-  const turnstileToken = document.querySelector('[name="cf-turnstile-response"]')?.value;
-  if (!turnstileToken) {
-    alert(currentLang === 'en' ? 'Please complete the Turnstile security check.' : (currentLang === 'es' ? 'Por favor complete la verificación de seguridad Turnstile.' : 'Veuillez valider le test de sécurité Turnstile.'));
-    return;
-  }
 
   const name = document.getElementById('client-name').value;
   const phone = document.getElementById('client-phone').value;
@@ -398,25 +365,18 @@ function handleBookingSubmit(event) {
   };
 
   emailjs.send('service_xflp3xf', 'template_vu4kcib', templateParams)
-    .then(function(response) {
-       alert(currentLang === 'en' ? 'Booking request sent successfully!' : (currentLang === 'es' ? '¡Solicitud de reserva enviada con éxito!' : 'Votre demande de réservation a été envoyée avec succès !'));
-       const modal = document.getElementById('booking-modal');
-       if(modal) modal.style.display = "none";
-       document.getElementById('booking-form').reset();
-    }, function(error) {
-       alert(currentLang === 'en' ? 'Error sending. Please contact via WhatsApp.' : (currentLang === 'es' ? 'Error al enviar. Por favor contáctenos por WhatsApp.' : 'Erreur lors de l\'envoi. Veuillez nous contacter via WhatsApp.'));
+    .then(function() {
+      alert('Votre demande de réservation a été envoyée avec succès !');
+      const modal = document.getElementById('booking-modal');
+      if (modal) modal.style.display = "none";
+      document.getElementById('booking-form').reset();
+    }, function() {
+      alert('Erreur lors de l\'envoi. Veuillez nous contacter via WhatsApp.');
     });
 }
 
-// 🌟 WhatsApp Booking Handler with Turnstile Multi-language Support
+// WhatsApp Booking Handler with Multi-language Automatic Support
 function sendViaWhatsApp() {
-  // 🛡️ Vérification Cloudflare Turnstile Token
-  const turnstileToken = document.querySelector('[name="cf-turnstile-response"]')?.value;
-  if (!turnstileToken) {
-    alert(currentLang === 'en' ? 'Please complete the Turnstile security check.' : (currentLang === 'es' ? 'Por favor complete la verificación de seguridad Turnstile.' : 'Veuillez valider le test de sécurité Turnstile.'));
-    return;
-  }
-
   const name = document.getElementById('client-name').value;
   const phone = document.getElementById('client-phone').value;
   const startDate = document.getElementById('client-start-date').value;
@@ -424,26 +384,35 @@ function sendViaWhatsApp() {
   const guests = document.getElementById('client-guests').value;
 
   if (!name || !phone || !startDate || !endDate || !guests) {
-    alert(currentLang === 'en' ? 'Please fill in all fields before sending via WhatsApp.' : (currentLang === 'es' ? 'Por favor rellene todos los campos antes de enviar por WhatsApp.' : 'Veuillez remplir tous les champs avant d\'envoyer sur WhatsApp.'));
+    alert('Veuillez remplir tous les champs avant d\'envoyer sur WhatsApp.');
     return;
   }
 
-  const whatsappNum = "212632634184"; 
-  const bookingPeriod = `From ${startDate} to ${endDate}`;
+  let lang = currentLang || 'fr';
+  const activeLangBtn = document.querySelector('.language-switcher .lang-btn.active');
+  if (activeLangBtn) {
+    const btnText = activeLangBtn.innerText.toLowerCase();
+    if (btnText.includes('en')) lang = 'en';
+    else if (btnText.includes('es')) lang = 'es';
+    else if (btnText.includes('fr')) lang = 'fr';
+  }
+
+  const whatsappNum = "212632634184";
+  const bookingPeriod = `Du ${startDate} au ${endDate}`;
   let msg = "";
 
-  if (currentLang === 'en') {
-    msg = `Hello Yazid Tours,\n\nI would like to book: *${selectedTourTitle || "Tour"}*\nName: ${name}\nPhone: ${phone}\nPeriod: ${bookingPeriod}\nGuests: ${guests}\n\nThank you!`;
-  } else if (currentLang === 'es') {
+  if (lang === 'en') {
+    msg = `Hello Yazid Tours,\n\nI would like to book: *${selectedTourTitle || "Tour"}*\nName: ${name}\nPhone: ${phone}\nPeriod: From ${startDate} to ${endDate}\nGuests: ${guests}\n\nThank you!`;
+  } else if (lang === 'es') {
     msg = `¡Hola Yazid Tours!\n\nMe gustaría reservar: *${selectedTourTitle || "Tour"}*\nNombre: ${name}\nTeléfono: ${phone}\nPeriodo: Del ${startDate} al ${endDate}\nPersonas: ${guests}\n\n¡Gracias!`;
   } else {
-    msg = `Bonjour Yazid Tours,\n\nJe souhaite réserver : *${selectedTourTitle || "Tour"}*\nNom : ${name}\nTéléphone : ${phone}\nPériode : Du ${startDate} au ${endDate}\nPersonnes : ${guests}\n\nMerci !`;
+    msg = `Bonjour Yazid Tours,\n\nJe souhaite réserver : *${selectedTourTitle || "Tour"}*\nNom : ${name}\nTéléphone : ${phone}\nPériode : ${bookingPeriod}\nPersonnes : ${guests}\n\nMerci !`;
   }
 
   window.open(`https://wa.me/${whatsappNum}?text=${encodeURIComponent(msg)}`, '_blank');
-  
+
   const modal = document.getElementById('booking-modal');
-  if(modal) modal.style.display = "none";
+  if (modal) modal.style.display = "none";
 }
 
 // Theme Toggle
@@ -451,9 +420,9 @@ function toggleTheme() {
   document.body.classList.toggle('light-mode');
   const themeIcon = document.getElementById('theme-icon');
   if (document.body.classList.contains('light-mode')) {
-    if (themeIcon) themeIcon.className = "fa-solid fa-moon"; 
+    if (themeIcon) themeIcon.className = "fa-solid fa-moon";
   } else {
-    if (themeIcon) themeIcon.className = "fa-solid fa-sun";  
+    if (themeIcon) themeIcon.className = "fa-solid fa-sun";
   }
 }
 
@@ -503,7 +472,7 @@ function displayComment(comment) {
   commentsList.prepend(commentDiv);
 }
 
-// 2. Dynamic Change Language
+// Fonction changeLanguage
 function changeLanguage(lang) {
   currentLang = lang;
 
@@ -518,8 +487,6 @@ function changeLanguage(lang) {
     });
   }
 
-  updateModalTranslations();
-
   document.querySelectorAll('.lang-btn, .lang-option').forEach(btn => {
     btn.classList.remove('active');
   });
@@ -530,16 +497,16 @@ function changeLanguage(lang) {
   }
 }
 
-// 🌟 Scroll Reveal Effect
+// Scroll Reveal Effect
 function revealOnScroll() {
   const reveals = document.querySelectorAll('.tour-card, .review-card, .catalog-section h2');
-  
+
   reveals.forEach(element => {
     element.classList.add('reveal');
     const windowHeight = window.innerHeight;
     const elementTop = element.getBoundingClientRect().top;
     const elementVisible = 100;
-    
+
     if (elementTop < windowHeight - elementVisible) {
       element.classList.add('active');
     }
