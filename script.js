@@ -59,7 +59,7 @@ const DEFAULT_TOURS_DATA = [
     "id": 4,
     "title": "Excursion en Groupe dans la Vallée de l'Ourika depuis Marrakech",
     "duration": "1 Jour",
-    "price": "20€ / personne",
+    "price": "22€ / personne",
     "route": [
       "Marrakech",
       "Ourika",
