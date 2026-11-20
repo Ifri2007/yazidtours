@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard | Yazid Tours</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+    body { background: #0b0f19; color: #f8fafc; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
+
+    .login-card { background: #111827; border: 1px solid rgba(255, 255, 255, 0.1); padding: 40px; border-radius: 20px; width: 100%; max-width: 400px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+    .login-card h2 { margin-bottom: 20px; color: #14b8a6; font-size: 1.5rem; }
+    .login-card input { width: 100%; padding: 12px; margin-bottom: 15px; border-radius: 8px; border: 1px solid #374151; background: #1f2937; color: #fff; font-size: 1rem; }
+    .login-card button { width: 100%; padding: 12px; border-radius: 25px; border: none; background: linear-gradient(135deg, #14b8a6, #0d9488); color: #fff; font-weight: 700; cursor: pointer; }
+
+    .dashboard { display: none; width: 100%; max-width: 1220px; background: #111827; border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.1); padding: 30px; box-shadow: 0 15px 35px rgba(0,0,0,0.6); }
+    .dash-header { display: flex; flex-wrap: wrap; gap: 12px; justify-content: space-between; align-items: center; margin-bottom: 22px; border-bottom: 1px solid #374151; padding-bottom: 15px; }
+    .dash-header h2 { color: #14b8a6; font-size: 1.35rem; display: flex; align-items: center; gap: 10px; }
+    .header-btns { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+
+    .btn-publish { background: linear-gradient(135deg, #10b981, #059669); color: #fff; border: none; padding: 10px 20px; border-radius: 22px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; }
+    .btn-publish:disabled { opacity: 0.6; cursor: not-allowed; }
+    .btn-cfg { background: #3b82f6; color: #fff; border: none; padding: 9px 16px; border-radius: 22px; font-weight: 600; cursor: pointer; }
+    .btn-logout { background: #ef4444; color: #fff; border: none; padding: 9px 16px; border-radius: 22px; font-weight: 600; cursor: pointer; }
+
+    .status-msg { padding: 12px 16px; border-radius: 12px; margin-bottom: 20px; font-size: 0.9rem; display: none; }
+    .status-ok { background: rgba(16, 185, 129, 0.14); border: 1px solid rgba(16, 185, 129, 0.4); color: #6ee7b7; }
+    .status-err { background: rgba(239, 68, 68, 0.14); border: 1px solid rgba(239, 68, 68, 0.4); color: #fca5a5; }
+    .status-info { background: rgba(59, 130, 246, 0.14); border: 1px solid rgba(59, 130, 246, 0.4); color: #93c5fd; }
+
+    .admin-section { background: #1f2937; padding: 20px; border-radius: 14px; margin-bottom: 24px; border: 1px solid rgba(255,255,255,0.05); }
+    .admin-section h3 { margin-bottom: 14px; font-size: 1.08rem; color: #f59e0b; display: flex; align-items: center; gap: 8px; }
+    .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin-bottom: 14px; }
+    .form-grid input, .form-grid textarea { width: 100%; padding: 10px 14px; border-radius: 8px; border: 1px solid #374151; background: #111827; color: #fff; font-size: 0.9rem; }
+    .form-grid textarea { grid-column: 1 / -1; resize: vertical; height: 80px; }
+
+    .btn-add { background: linear-gradient(135deg, #14b8a6, #0d9488); color: #fff; border: none; padding: 10px 22px; border-radius: 20px; font-weight: 600; cursor: pointer; }
+    .btn-cancel { background: #374151; color: #fff; border: none; padding: 10px 16px; border-radius: 20px; font-weight: 600; cursor: pointer; margin-left: 8px; display: none; }
+
+    .table-responsive { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; text-align: left; }
+    th, td { padding: 12px 14px; border-bottom: 1px solid #1f2937; font-size: 0.9rem; }
+    th { background: #161e2e; color: #9ca3af; font-weight: 600; }
+
+    .btn-action { padding: 6px 12px; border-radius: 6px; border: none; font-weight: 600; cursor: pointer; font-size: 0.8rem; margin-right: 5px; }
+    .btn-edit { background: #f59e0b; color: #111827; }
+    .btn-delete { background: #ef4444; color: #fff; }
+  </style>
+</head>
+<body>
+
+  <div class="login-card" id="login-box">
+    <h2><i class="fa-solid fa-lock"></i> Admin Yazid Tours</h2>
+    <form onsubmit="checkAdminAuth(event)">
+      <input type="password" id="admin-pass" placeholder="Mot de passe" required>
+      <button type="submit">Se connecter</button>
+    </form>
+    <p id="error-msg" style="color: #ef4444; margin-top: 10px; display: none; font-size: 0.85rem;">Mot de passe incorrect!</p>
+  </div>
+
+  <div class="dashboard" id="dash-box">
+    <div class="dash-header">
+      <h2><i class="fa-solid fa-gauge"></i> Admin Yazid Tours — Mise à jour en direct</h2>
+      <div class="header-btns">
+        <button class="btn-publish" id="btn-publish" onclick="publishToGitHub()">
+          <i class="fa-solid fa-cloud-arrow-up"></i> Mise à jour
+        </button>
+        <button class="btn-cfg" onclick="toggleConfigPanel()">
+          <i class="fa-solid fa-gear"></i> GitHub Config
+        </button>
+        <button class="btn-logout" onclick="logoutAdmin()">
+          <i class="fa-solid fa-sign-out-alt"></i> Déconnexion
+        </button>
+      </div>
+    </div>
+
+    <div id="status-box" class="status-msg"></div>
+
+    <!-- GitHub Config Panel -->
+    <div class="admin-section" id="github-config-box" style="display: none;">
+      <h3><i class="fa-brands fa-github"></i> Connexion GitHub (Mise à jour automatique de script.js)</h3>
+      <div class="form-grid">
+        <input type="text" id="gh-owner" placeholder="Owner (ex: Ifri2007)">
+        <input type="text" id="gh-repo" placeholder="Repo (ex: yazidtours)">
+        <input type="text" id="gh-branch" placeholder="Branch (ex: main)">
+        <input type="text" id="gh-path" placeholder="Fichier cible (ex: script.js)">
+        <input type="password" id="gh-token" placeholder="GitHub Token (Contents: Read & Write)" style="grid-column: 1 / -1;">
+      </div>
+      <button type="button" class="btn-add" onclick="saveGitHubConfig()">Enregistrer la config GitHub</button>
+    </div>
+
+    <!-- Form Add / Edit Tour -->
+    <div class="admin-section">
+      <h3 id="form-title"><i class="fa-solid fa-plus-circle"></i> Ajouter une Nouvelle Excursion</h3>
+      <form id="tour-form" onsubmit="saveTour(event)">
+        <input type="hidden" id="edit-index">
+        <div class="form-grid">
+          <input type="text" id="tour-title" placeholder="Titre (ex: Circuit Merzouga 3J/2N)" required>
+          <input type="text" id="tour-duration" placeholder="Durée (ex: 3 Jours / 2 Nuits)" required>
+          <input type="text" id="tour-price" placeholder="Prix (ex: 140€ / personne)" required>
+          <input type="text" id="tour-route" placeholder="Étapes (ex: Marrakech, Aït Ben Haddou, Merzouga)" required>
+          <input type="text" id="tour-imgs" placeholder="Images séparées par virgule (ex: cover.jpeg, merzouga/merzouga1.jpeg)" required>
+          <textarea id="tour-desc" placeholder="Description détaillée de l'excursion..." required></textarea>
+        </div>
+        <button type="submit" class="btn-add" id="submit-btn">Enregistrer l'excursion</button>
+        <button type="button" class="btn-cancel" id="cancel-edit-btn" onclick="cancelEdit()">Annuler</button>
+      </form>
+    </div>
+
+    <!-- Tours Table -->
+    <div class="table-responsive">
+      <table>
+        <thead>
+          <tr>
+            <th>Image</th>
+            <th>Titre</th>
+            <th>Durée</th>
+            <th>Étapes</th>
+            <th>Prix</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="tours-table-body"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    const ADMIN_PASS = "yazid2026";
+    const TOURS_STORAGE_KEY = "yazid_tours_v2";
+    const GH_STORAGE_KEY = "yazid_gh_config_v1";
+
+    const DEFAULT_TOURS = [
+      {
+        id: 1,
+        duration: "3 Jours / 2 Nuits",
+        price: "140€ / personne",
+        title: "Circuit en Groupe – Désert de Merzouga depuis Marrakech – 3 Jours, 2 Nuits",
+        route: ["Marrakech", "Aït Ben Haddou", "Ouarzazate", "Merzouga"],
+        images: ["merzouga/merzouga1.jpeg", "merzouga/merzouga2.jpeg", "merzouga/merzouga3.jpeg"],
+        desc: "Jour 1 : Marrakech – Aït Ben Haddou – Ouarzazate – Gorges du Dadès.\nJour 2 : Gorges du Dadès – Gorges du Todra – Désert de Merzouga (balade à dos de dromadaire et nuit sous les étoiles).\nJour 3 : Lever du soleil sur les dunes et retour vers Marrakech."
+      },
+      {
+        id: 2,
+        duration: "4 Jours",
+        price: "500€ / personne",
+        title: "Circuit Privé – Désert de Merzouga depuis Marrakech – 4 Jours",
+        route: ["Marrakech", "Aït Ben Haddou", "Ouarzazate", "Dadès", "Merzouga"],
+        images: ["merzouga/merzouga6.jpeg", "merzouga/merzouga7.jpeg", "merzouga/merzouga8.jpeg"],
+        desc: "Circuit privé de 4 jours à votre rythme à travers le Haut Atlas, Skoura, la Vallée des Roses, les Gorges du Dadès et du Todra jusqu'aux dunes de Merzouga."
+      },
+      {
+        id: 3,
+        duration: "3 Jours / 2 Nuits",
+        price: "600€ / personne",
+        title: "Circuit Privé de Luxe dans le Désert de Merzouga depuis Marrakech – 3 Jours, 2 Nuits",
+        route: ["Marrakech", "Tichka", "Dadès", "Merzouga (Luxe)"],
+        images: ["merzouga/merzouga1.jpeg", "merzouga/merzouga3.jpeg", "merzouga/merzouga5.jpeg"],
+        desc: "Expérience privée haut de gamme avec transport privé, attention personnalisée et nuit dans un campement de luxe au cœur des dunes de Merzouga."
+      },
+      {
+        id: 4,
+        duration: "1 Jour",
+        price: "22€ / personne",
+        title: "Excursion en Groupe dans la Vallée de l'Ourika depuis Marrakech",
+        route: ["Marrakech", "Ourika", "Setti Fatma"],
+        images: ["ourika/ourika1.webp", "ourika/ourika2.webp"],
+        desc: "Excursion d'une journée depuis Marrakech vers la Vallée de l'Ourika et Setti Fatma au pied des montagnes de l'Atlas."
+      },
+      {
+        id: 5,
+        duration: "1 Jour",
+        price: "100€ / véhicule",
+        title: "Excursion Privée dans la Vallée de l'Ourika depuis Marrakech",
+        route: ["Marrakech", "Ourika", "Setti Fatma"],
+        images: ["ourika/ourika3.webp", "ourika/ourika4.webp"],
+        desc: "Excursion privée d'une journée dans la Vallée de l'Ourika avec véhicule dédié et flexibilité tout au long de la journée."
+      }
+    ];
+
+    let tours = JSON.parse(localStorage.getItem(TOURS_STORAGE_KEY)) || DEFAULT_TOURS;
+
+    function showStatus(msg, type = "info") {
+      const box = document.getElementById("status-box");
+      box.className = "status-msg status-" + type;
+      box.innerHTML = msg;
+      box.style.display = "block";
+    }
+
+    function checkAdminAuth(e) {
+      e.preventDefault();
+      if (document.getElementById("admin-pass").value === ADMIN_PASS) {
+        document.getElementById("login-box").style.display = "none";
+        document.getElementById("dash-box").style.display = "block";
+        loadGitHubConfigIntoForm();
+        renderTours();
+      } else {
+        document.getElementById("error-msg").style.display = "block";
+      }
+    }
+
+    function logoutAdmin() {
+      document.getElementById("dash-box").style.display = "none";
+      document.getElementById("login-box").style.display = "block";
+      document.getElementById("admin-pass").value = "";
+    }
+
+    function toggleConfigPanel() {
+      const panel = document.getElementById("github-config-box");
+      panel.style.display = panel.style.display === "none" ? "block" : "none";
+    }
+
+    function getGitHubConfig() {
+      const saved = JSON.parse(localStorage.getItem(GH_STORAGE_KEY) || "{}");
+      return {
+        owner: saved.owner || "Ifri2007",
+        repo: saved.repo || "yazidtours",
+        branch: saved.branch || "main",
+        path: saved.path || "script.js",
+        token: saved.token || ""
+      };
+    }
+
+    function loadGitHubConfigIntoForm() {
+      const cfg = getGitHubConfig();
+      document.getElementById("gh-owner").value = cfg.owner;
+      document.getElementById("gh-repo").value = cfg.repo;
+      document.getElementById("gh-branch").value = cfg.branch;
+      document.getElementById("gh-path").value = cfg.path;
+      document.getElementById("gh-token").value = cfg.token;
+    }
+
+    function saveGitHubConfig() {
+      const cfg = {
+        owner: document.getElementById("gh-owner").value.trim() || "Ifri2007",
+        repo: document.getElementById("gh-repo").value.trim() || "yazidtours",
+        branch: document.getElementById("gh-branch").value.trim() || "main",
+        path: document.getElementById("gh-path").value.trim() || "script.js",
+        token: document.getElementById("gh-token").value.trim()
+      };
+      localStorage.setItem(GH_STORAGE_KEY, JSON.stringify(cfg));
+      showStatus("Paramètres GitHub enregistrés avec succès.", "ok");
+    }
+
+    function renderTours() {
+      const tbody = document.getElementById("tours-table-body");
+      tbody.innerHTML = "";
+
+      tours.forEach((tour, index) => {
+        const firstImg = (Array.isArray(tour.images) && tour.images[0]) ? tour.images[0] : "cover.jpeg";
+        const routeText = Array.isArray(tour.route) ? tour.route.join(" → ") : (tour.route || "");
+
+        tbody.innerHTML += `
+          <tr>
+            <td><img src="${firstImg}" width="54" height="38" style="border-radius:6px; object-fit:cover;" onerror="this.src='cover.jpeg'"></td>
+            <td><strong>${tour.title}</strong></td>
+            <td>${tour.duration || ""}</td>
+            <td>${routeText}</td>
+            <td style="color:#f59e0b; font-weight:700;">${tour.price}</td>
+            <td>
+              <button class="btn-action btn-edit" onclick="editTour(${index})">Modifier</button>
+              <button class="btn-action btn-delete" onclick="deleteTour(${index})">Supprimer</button>
+            </td>
+          </tr>
+        `;
+      });
+
+      localStorage.setItem(TOURS_STORAGE_KEY, JSON.stringify(tours));
+    }
+
+    function saveTour(e) {
+      e.preventDefault();
+      const editIdx = document.getElementById("edit-index").value;
+      const title = document.getElementById("tour-title").value.trim();
+      const duration = document.getElementById("tour-duration").value.trim();
+      const price = document.getElementById("tour-price").value.trim();
+      const route = document.getElementById("tour-route").value.split(",").map(s => s.trim()).filter(Boolean);
+      const images = document.getElementById("tour-imgs").value.split(",").map(s => s.trim()).filter(Boolean);
+      const desc = document.getElementById("tour-desc").value.trim();
+
+      const tourObj = {
+        id: editIdx === "" ? Date.now() : tours[editIdx].id,
+        title,
+        duration,
+        price,
+        route: route.length ? route : ["Marrakech"],
+        images: images.length ? images : ["cover.jpeg"],
+        desc
+      };
+
+      if (editIdx === "") {
+        tours.push(tourObj);
+      } else {
+        tours[Number(editIdx)] = tourObj;
+        cancelEdit();
+      }
+
+      document.getElementById("tour-form").reset();
+      renderTours();
+      showStatus("Modification enregistrée localement. Cliquez sur <strong>Mise à jour</strong> pour publier sur yazidtours.com.", "info");
+    }
+
+    function editTour(index) {
+      const tour = tours[index];
+      document.getElementById("edit-index").value = index;
+      document.getElementById("tour-title").value = tour.title || "";
+      document.getElementById("tour-duration").value = tour.duration || "";
+      document.getElementById("tour-price").value = tour.price || "";
+      document.getElementById("tour-route").value = Array.isArray(tour.route) ? tour.route.join(", ") : (tour.route || "");
+      document.getElementById("tour-imgs").value = Array.isArray(tour.images) ? tour.images.join(", ") : (tour.images || "");
+      document.getElementById("tour-desc").value = tour.desc || "";
+
+      document.getElementById("form-title").innerHTML = '<i class="fa-solid fa-pen"></i> Modifier l\'Excursion';
+      document.getElementById("submit-btn").innerText = "Mettre à jour";
+      document.getElementById("cancel-edit-btn").style.display = "inline-block";
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function cancelEdit() {
+      document.getElementById("edit-index").value = "";
+      document.getElementById("tour-form").reset();
+      document.getElementById("form-title").innerHTML = '<i class="fa-solid fa-plus-circle"></i> Ajouter une Nouvelle Excursion';
+      document.getElementById("submit-btn").innerText = "Enregistrer l'excursion";
+      document.getElementById("cancel-edit-btn").style.display = "none";
+    }
+
+    function deleteTour(index) {
+      if (confirm("Voulez-vous vraiment supprimer cette excursion ?")) {
+        tours.splice(index, 1);
+        renderTours();
+        showStatus("Excursion supprimée. Cliquez sur <strong>Mise à jour</strong> pour appliquer sur le site en ligne.", "info");
+      }
+    }
+
+    function encodeUtf8ToBase64(str) {
+      const bytes = new TextEncoder().encode(str);
+      let bin = "";
+      for (let i = 0; i < bytes.length; i++) {
+        bin += String.fromCharCode(bytes[i]);
+      }
+      return btoa(bin);
+    }
+
+    function decodeBase64ToUtf8(b64) {
+      const bin = atob(b64.replace(/\n/g, ""));
+      const bytes = new Uint8Array(bin.length);
+      for (let i = 0; i < bin.length; i++) {
+        bytes[i] = bin.charCodeAt(i);
+      }
+      return new TextDecoder().decode(bytes);
+    }
+
+    async function publishToGitHub() {
+      const cfg = getGitHubConfig();
+      if (!cfg.token) {
+        document.getElementById("github-config-box").style.display = "block";
+        showStatus("Veuillez entrer votre Token GitHub dans <strong>GitHub Config</strong> puis cliquer sur Enregistrer.", "err");
+        return;
+      }
+
+      const btn = document.getElementById("btn-publish");
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Mise à jour...';
+
+      try {
+        const apiUrl = `https://api.github.com/repos/${encodeURIComponent(cfg.owner)}/${encodeURIComponent(cfg.repo)}/contents/${encodeURIComponent(cfg.path)}`;
+        const headers = {
+          "Authorization": `Bearer ${cfg.token}`,
+          "Accept": "application/vnd.github+json"
+        };
+
+        const getRes = await fetch(`${apiUrl}?ref=${encodeURIComponent(cfg.branch)}`, { headers });
+        if (!getRes.ok) {
+          const errData = await getRes.json().catch(() => ({}));
+          throw new Error(errData.message || `Erreur lecture GitHub (${getRes.status})`);
+        }
+
+        const fileData = await getRes.json();
+        const currentContent = decodeBase64ToUtf8(fileData.content);
+
+        const replacement = "const DEFAULT_TOURS_DATA = " + JSON.stringify(tours, null, 2) + ";";
+        const pattern = /const DEFAULT_TOURS_DATA\s*=\s*\[[\s\S]*?\n\];/;
+
+        if (!pattern.test(currentContent)) {
+          throw new Error("Bloc DEFAULT_TOURS_DATA introuvable dans script.js.");
+        }
+
+        const updatedContent = currentContent.replace(pattern, replacement);
+
+        const putRes = await fetch(apiUrl, {
+          method: "PUT",
+          headers: {
+            ...headers,
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            message: "Mise à jour des excursions via Admin Yazid Tours",
+            content: encodeUtf8ToBase64(updatedContent),
+            sha: fileData.sha,
+            branch: cfg.branch
+          })
+        });
+
+        if (!putRes.ok) {
+          const errData = await putRes.json().catch(() => ({}));
+          throw new Error(errData.message || `Erreur mise à jour GitHub (${putRes.status})`);
+        }
+
+        localStorage.removeItem(TOURS_STORAGE_KEY);
+        showStatus("<strong>Mise à jour envoyée sur GitHub !</strong> Le site en ligne va se mettre à jour automatiquement dans quelques instants.", "ok");
+      } catch (err) {
+        showStatus("<strong>Échec :</strong> " + err.message, "err");
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fa-solid fa-cloud-arrow-up"></i> Mise à jour';
+      }
+    }
+  </script>
+</body>
+</html>
